@@ -7,7 +7,6 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "auth0-js": "^6.5.0",
     "react-native": "^0.10.0-rc",
     "react-redux": "^0.9.0",
     "redux-logger": "0.0.3",
