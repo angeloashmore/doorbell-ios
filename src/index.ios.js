@@ -3,7 +3,7 @@ import { Provider } from 'react-redux/native';
 
 import configureStore from './store/configureStore';
 
-import Entry from './containers/Entry';
+import EntryContainer from './containers/EntryContainer';
 
 const store = configureStore();
 
@@ -11,7 +11,7 @@ class DoorbellIOS extends Component {
   render() {
     return (
       <Provider store={store}>
-        {() => <Entry />}
+        {() => <EntryContainer />}
       </Provider>
     );
   }

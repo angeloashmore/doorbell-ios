@@ -15,7 +15,10 @@ export default function auth(state = initialState, action = {}) {
 
   case actionTypes.SIGN_IN_ERROR:
     return Object.assign({}, initialState, {
-      error: action.error,
+      error: {
+        type: action.error.error,
+        message: action.error.error_description,
+      },
     });
 
   case actionTypes.SIGNED_IN:

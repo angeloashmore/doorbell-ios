@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers } from 'rx-redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import loggerMiddleware from 'redux-logger';
 import * as reducers from '../reducers';

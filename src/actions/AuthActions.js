@@ -1,8 +1,6 @@
 import config from '../config';
 import * as actionTypes from '../constants/actionTypes';
 
-// Sign in actions
-
 function signingIn() {
   return { type: actionTypes.SIGNING_IN };
 }
@@ -19,13 +17,19 @@ export function signIn(username, password) {
   return dispatch => {
     dispatch(signingIn());
 
-    const options = {
+    const body = {
       connection: 'Username-Password-Authentication',
       client_id: config.Auth0.CLIENT_ID,
       grant_type: 'password',
       scope: 'openid',
       username,
       password,
+    };
+
+    const options = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
     };
 
     fetch(`https://${config.Auth0.DOMAIN}/oauth/ro`, options)
@@ -40,8 +44,18 @@ export function signIn(username, password) {
   };
 }
 
-// Sign out actions
+function signingOut() {
+  return { type: actionTypes.SIGNING_OUT };
+}
+
+function signedOut() {
+  return { type: actionTypes.SIGNED_OUT };
+}
 
 export function signOut() {
-  return { type: actionTypes.SIGN_OUT };
+  return dispatch => {
+    dispatch(signingOut());
+    fetch(`https://${config.Auth0.DOMAIN}/logout`)
+      .then(dispatch(signedOut()));
+  };
 }
