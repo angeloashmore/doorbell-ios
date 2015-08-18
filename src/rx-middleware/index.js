@@ -1,0 +1,1 @@
+export thunkMiddleware from './thunkMiddleware';
