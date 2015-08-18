@@ -1,0 +1,6 @@
+{
+  "Auth0": {
+    "DOMAIN": "doorbell-api-dev.auth0.com",
+    "CLIENT_ID": "9qmS3UpQ2YdtU9ni72SqQCFD3qEprz3X"
+  }
+}

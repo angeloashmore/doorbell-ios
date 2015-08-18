@@ -1,24 +1,18 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-import React, { AppRegistry, Component, StyleSheet, Text, View } from 'react-native';
+import React, { AppRegistry, Component, StyleSheet, View, Text } from 'react-native';
+import { Provider } from 'react-redux/native';
+
+import configureStore from './store/configureStore';
+
+import Home from './containers/Home';
+
+const store = configureStore();
 
 class DoorbellIOS extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <Provider store={store}>
+        {() => <Home />}
+      </Provider>
     );
   }
 }
@@ -28,17 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    backgroundColor: '#f0f',
   },
 });
 
