@@ -1,6 +1,6 @@
 import { connect } from 'react-redux/native';
 
-import Entry from '../components/Entry';
+import { Entry } from '../components';
 
 function mapStateToProps(state) {
   return {

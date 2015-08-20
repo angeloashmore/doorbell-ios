@@ -2,7 +2,7 @@ import { connect } from 'react-redux/native';
 import { bindActionCreators } from 'redux';
 
 import { signIn } from '../actions/AuthActions';
-import SignIn from '../components/SignIn';
+import { SignIn } from '../components';
 
 function mapStateToProps(state) {
   return {

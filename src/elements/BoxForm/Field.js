@@ -1,5 +1,5 @@
-import React, { Component, PropTypes, StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { colors, fonts } from '../../styles';
+import React, { Component, PropTypes, StyleSheet, View } from 'react-native';
+import { colors } from '../../styles';
 
 export default class BoxFormField extends Component {
   static propTypes = {

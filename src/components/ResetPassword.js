@@ -1,39 +1,29 @@
-import React, { Component, PropTypes, AlertIOS, StatusBarIOS, StyleSheet, Modal, View, Text, TouchableOpacity } from 'react-native';
+import React, { Component, PropTypes, AlertIOS, StatusBarIOS, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import NavigationBar from 'react-native-navbar';
 import { colors, fonts } from '../styles';
-import { ResetPassword } from '../components';
 import { BoxForm } from '../elements';
 
-export default class SignIn extends Component {
+export default class ResetPassword extends Component {
   static propTypes = {
-    signIn: PropTypes.func.isRequired,
-    signingIn: PropTypes.bool.isRequired,
-    error: PropTypes.object,
-  }
-
-  static defaultProps = {
-    signingIn: false,
+    hideResetPassword: PropTypes.func.isRequired,
   }
 
   state = {
     email: null,
     password: null,
-    showResetPassword: false,
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { signingIn, error } = nextProps;
-    StatusBarIOS.setNetworkActivityIndicatorVisible(signingIn);
-    if (error) AlertIOS.alert('Sign In Error', error.message);
   }
 
   render() {
-    const { showResetPassword } = this.state;
+    const { hideResetPassword } = this.props;
 
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>DOORBELL</Text>
-        <Text style={styles.tagline}>LIGHTNING FAST ANSWERS</Text>
-
+        <TouchableOpacity
+          onPress={hideResetPassword}
+          style={styles.close}>
+          <Text>Close</Text>
+        </TouchableOpacity>
+        <Text style={styles.text}>Enter your email address and new password below.</Text>
         <BoxForm style={styles.boxForm}>
           <BoxForm.Field isFirst={true}>
             <BoxForm.Label>EMAIL</BoxForm.Label>
@@ -50,7 +40,7 @@ export default class SignIn extends Component {
               />
           </BoxForm.Field>
           <BoxForm.Field>
-            <BoxForm.Label>PASSWORD</BoxForm.Label>
+            <BoxForm.Label>NEW PASSWORD</BoxForm.Label>
             <BoxForm.TextInput
               autoCapitalize="none"
               autoCorrect={false}
@@ -64,21 +54,12 @@ export default class SignIn extends Component {
               />
           </BoxForm.Field>
           <BoxForm.Field isButton={true} isLast={true}>
-            <BoxForm.Button
-              isDisabled={this.props.signingIn}
-              onPress={this._signIn.bind(this)}>
-              SIGN IN
+            <BoxForm.Button>
+              RESET PASSWORD
             </BoxForm.Button>
           </BoxForm.Field>
         </BoxForm>
-
-        <TouchableOpacity onPress={this._toggleShowResetPassword.bind(this)}>
-          <Text style={styles.forgotPassword}>FORGOT YOUR PASSWORD?</Text>
-        </TouchableOpacity>
-
-        <Modal animated={true} visible={showResetPassword}>
-          <ResetPassword hideResetPassword={this._toggleShowResetPassword.bind(this)} />
-        </Modal>
+        <Text style={styles.text}>We'll send you an email with a link to activate your new password.</Text>
       </View>
     );
   }
@@ -92,11 +73,6 @@ export default class SignIn extends Component {
     const { email, password } = this.state;
     signIn(email, password);
   }
-
-  _toggleShowResetPassword() {
-    const { showResetPassword } = this.state;
-    this.setState({ showResetPassword: !showResetPassword });
-  }
 }
 
 const styles = StyleSheet.create({
@@ -107,29 +83,19 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 30,
+    position: 'relative',
   },
 
-  logo: {
+  close: {
+    left: 15,
+    position: 'absolute',
+    top: 36,
+  },
+
+  text: {
     color: colors.get('white'),
     fontFamily: fonts.get('base'),
-    fontSize: 36,
-    letterSpacing: 1.8,
-    marginBottom: 5,
-    textAlign: 'center',
-  },
-
-  tagline: {
-    color: colors.get('tintAlt'),
-    fontFamily: fonts.get('base'),
     fontSize: 18,
-    letterSpacing: 1.5,
-    textAlign: 'center',
-  },
-
-  forgotPassword: {
-    color: colors.get('tintAlt'),
-    fontFamily: fonts.get('base'),
-    fontSize: 14,
     letterSpacing: 1,
     textAlign: 'center',
   },

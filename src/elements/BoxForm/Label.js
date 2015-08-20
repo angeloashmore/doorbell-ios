@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { Component, StyleSheet, Text } from 'react-native';
 import { colors, fonts } from '../../styles';
 
 export default class BoxFormLabel extends Component {

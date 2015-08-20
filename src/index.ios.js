@@ -3,7 +3,7 @@ import { Provider } from 'react-redux/native';
 
 import configureStore from './store/configureStore';
 
-import EntryContainer from './containers/EntryContainer';
+import { EntryContainer } from './containers';
 
 const store = configureStore();
 

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react-native';
-import Main from '../components/Main';
-import SignInContainer from '../containers/SignInContainer';
+import { Main } from '../components';
+import { SignInContainer } from '../containers';
 
 export default class Entry extends Component {
   static propTypes = {
