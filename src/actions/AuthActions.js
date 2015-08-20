@@ -59,3 +59,44 @@ export function signOut() {
       .then(dispatch(signedOut()));
   };
 }
+
+function changingPassword() {
+  return { type: actionTypes.CHANGING_PASSWORD };
+}
+
+function changePasswordError(error) {
+  return { type: actionTypes.CHANGE_PASSWORD_ERROR, error };
+}
+
+function changedPassword() {
+  return { type: actionTypes.CHANGED_PASSWORD };
+}
+
+export function changePassword(email, password) {
+  return dispatch => {
+    dispatch(changingPassword());
+
+    const body = {
+      connection: 'Username-Password-Authentication',
+      client_id: config.Auth0.CLIENT_ID,
+      email,
+      password,
+    };
+
+    const options = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    };
+
+    fetch(`https://${config.Auth0.DOMAIN}/dbconnections/change_password`, options)
+      .then(res => res.json())
+      .then(json => {
+        if (!!json.error || !!json.code) {
+          dispatch(changePasswordError(json));
+        } else {
+          dispatch(changedPassword());
+        }
+      });
+  };
+}

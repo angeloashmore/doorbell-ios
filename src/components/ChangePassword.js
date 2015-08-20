@@ -3,9 +3,18 @@ import KeyboardEvents, { Emitter as KeyboardEventEmitter } from 'react-native-ke
 import { colors, fonts } from '../styles';
 import { BoxForm } from '../elements';
 
-export default class ResetPassword extends Component {
+export default class ChangePassword extends Component {
   static propTypes = {
-    hideResetPassword: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    changePassword: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    success: PropTypes.bool.isRequired,
+  }
+
+  static defaultProps = {
+    loading: false,
+    success: false,
   }
 
   state = {
@@ -25,14 +34,24 @@ export default class ResetPassword extends Component {
     KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { loading, error, success } = nextProps;
+    StatusBarIOS.setNetworkActivityIndicatorVisible(loading);
+    if (error) AlertIOS.alert('Change Password Error', error.message);
+    if (success) {
+      AlertIOS.alert('Email sent!', 'Check your email to activate your new password.');
+      this.props.closeModal();
+    }
+  }
+
   render() {
     const { keyboardOpen } = this.state;
-    const { hideResetPassword } = this.props;
+    const { closeModal } = this.props;
 
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={hideResetPassword}
+          onPress={closeModal}
           style={styles.close}>
           <Image source={require('../assets/images/navbar-close-icon.png')} />
         </TouchableOpacity>
@@ -51,6 +70,7 @@ export default class ResetPassword extends Component {
               enablesReturnKeyAutomatically={true}
               keyboardType="email-address"
               onChangeText={value => this._onInputChange('email', value)}
+              onSubmitEditing={() => this.refs.newPassword.focus()}
               placeholder="name@example.com"
               placeholderTextColor={colors.get('textSuperUnpronounced')}
               returnKeyType="next"
@@ -64,15 +84,19 @@ export default class ResetPassword extends Component {
               clearButtonMode="while-editing"
               enablesReturnKeyAutomatically={true}
               onChangeText={value => this._onInputChange('password', value)}
+              onSubmitEditing={this._changePassword.bind(this)}
               placeholder="Required"
               placeholderTextColor={colors.get('textSuperUnpronounced')}
+              ref="newPassword"
               returnKeyType="go"
               secureTextEntry={true}
               />
           </BoxForm.Field>
           <BoxForm.Field isButton={true} isLast={true}>
-            <BoxForm.Button>
-              RESET PASSWORD
+            <BoxForm.Button
+              isDisabled={this.props.loading}
+              onPress={this._changePassword.bind(this)}>
+              CHANGE PASSWORD
             </BoxForm.Button>
           </BoxForm.Field>
         </BoxForm>
@@ -88,10 +112,10 @@ export default class ResetPassword extends Component {
     this.setState(state => state[fieldName] = value);
   }
 
-  _signIn() {
-    const { signIn } = this.props;
+  _changePassword() {
+    const { changePassword, hideChangePassword } = this.props;
     const { email, password } = this.state;
-    signIn(email, password);
+    changePassword(email, password);
   }
 
   _updateKeyboardSpace(frames) {

@@ -6,8 +6,8 @@ import { SignIn } from '../components';
 
 function mapStateToProps(state) {
   return {
-    error: state.auth.error,
-    signingIn: !!state.auth.signingIn,
+    error: state.auth.signInError,
+    loading: !!state.auth.signingIn,
   };
 }
 

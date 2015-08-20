@@ -1,11 +1,11 @@
+import ChangePassword from './ChangePassword';
 import Entry from './Entry';
 import Main from './Main';
-import ResetPassword from './ResetPassword';
 import SignIn from './SignIn';
 
 export {
+  ChangePassword,
   Entry,
   Main,
-  ResetPassword,
   SignIn,
 }

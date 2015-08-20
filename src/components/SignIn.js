@@ -1,24 +1,24 @@
 import React, { Component, PropTypes, Animated, AlertIOS, StatusBarIOS, StyleSheet, Modal, View, Text, TouchableOpacity } from 'react-native';
 import KeyboardEvents, { Emitter as KeyboardEventEmitter } from 'react-native-keyboardevents';
 import { colors, fonts } from '../styles';
-import { ResetPassword } from '../components';
+import { ChangePasswordContainer } from '../containers';
 import { BoxForm, ModalNavigator } from '../elements';
 
 export default class SignIn extends Component {
   static propTypes = {
     signIn: PropTypes.func.isRequired,
-    signingIn: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
     error: PropTypes.object,
   }
 
   static defaultProps = {
-    signingIn: false,
+    loading: false,
   }
 
   state = {
     email: null,
     password: null,
-    showResetPassword: false,
+    showChangePassword: false,
     keyboardSpace: new Animated.Value(0),
   }
 
@@ -33,13 +33,13 @@ export default class SignIn extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { signingIn, error } = nextProps;
-    StatusBarIOS.setNetworkActivityIndicatorVisible(signingIn);
+    const { loading, error } = nextProps;
+    StatusBarIOS.setNetworkActivityIndicatorVisible(loading);
     if (error) AlertIOS.alert('Sign In Error', error.message);
   }
 
   render() {
-    const { showResetPassword } = this.state;
+    const { showChangePassword } = this.state;
 
     return (
       <View style={styles.container}>
@@ -81,19 +81,19 @@ export default class SignIn extends Component {
           </BoxForm.Field>
           <BoxForm.Field isButton={true} isLast={true}>
             <BoxForm.Button
-              isDisabled={this.props.signingIn}
+              isDisabled={this.props.loading}
               onPress={this._signIn.bind(this)}>
               SIGN IN
             </BoxForm.Button>
           </BoxForm.Field>
         </BoxForm>
 
-        <TouchableOpacity onPress={this._toggleShowResetPassword.bind(this)}>
+        <TouchableOpacity onPress={this._toggleShowChangePassword.bind(this)}>
           <Text style={styles.forgotPassword}>FORGOT YOUR PASSWORD?</Text>
         </TouchableOpacity>
 
-        <Modal animated={true} visible={showResetPassword}>
-          <ResetPassword hideResetPassword={this._toggleShowResetPassword.bind(this)} />
+        <Modal animated={true} visible={showChangePassword}>
+          <ChangePasswordContainer closeModal={this._toggleShowChangePassword.bind(this)} />
         </Modal>
 
         <Animated.View style={{ height: this.state.keyboardSpace }}></Animated.View>
@@ -111,9 +111,9 @@ export default class SignIn extends Component {
     signIn(email, password);
   }
 
-  _toggleShowResetPassword() {
-    const { showResetPassword } = this.state;
-    this.setState({ showResetPassword: !showResetPassword });
+  _toggleShowChangePassword() {
+    const { showChangePassword } = this.state;
+    this.setState({ showChangePassword: !showChangePassword });
   }
 
   _updateKeyboardSpace(frames) {
