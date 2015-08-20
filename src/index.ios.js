@@ -1,4 +1,4 @@
-import React, { AppRegistry, Component } from 'react-native';
+import React, { AppRegistry, Component, StatusBarIOS } from 'react-native';
 import { Provider } from 'react-redux/native';
 
 import configureStore from './store/configureStore';
@@ -8,6 +8,10 @@ import EntryContainer from './containers/EntryContainer';
 const store = configureStore();
 
 class DoorbellIOS extends Component {
+  componentDidMount() {
+    StatusBarIOS.setStyle('light-content');
+  }
+
   render() {
     return (
       <Provider store={store}>

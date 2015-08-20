@@ -1,37 +1,74 @@
-import React, { Component, PropTypes, StyleSheet, View, Text, TextInput, TouchableHighlight } from 'react-native';
+import React, { Component, PropTypes, AlertIOS, StatusBarIOS, StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { colors, fonts } from '../styles';
+import { BoxForm } from '../elements';
 
 export default class SignIn extends Component {
   static propTypes = {
     signIn: PropTypes.func.isRequired,
+    signingIn: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+  }
+
+  static defaultProps = {
+    signingIn: false,
+  }
+
+  state = {
+    email: null,
+    password: null,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { signingIn, error } = nextProps;
+    StatusBarIOS.setNetworkActivityIndicatorVisible(signingIn);
+    if (error) AlertIOS.alert('Sign In Error', error.message);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          autoFocus={true}
-          clearButtonMode="while-editing"
-          placeholder="Email"
-          returnKeyType="next"
-          onChangeText={value => this._onInputChange('email', value)}
-          style={styles.input}
-          />
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          autoFocus={true}
-          clearButtonMode="while-editing"
-          placeholder="Password"
-          returnKeyType="go"
-          onChangeText={value => this._onInputChange('password', value)}
-          secureTextEntry={true}
-          style={styles.input}
-          />
-        <TouchableHighlight onPress={this._signIn.bind(this)}>
-          <Text>Sign In</Text>
-        </TouchableHighlight>
+        <Text style={styles.logo}>DOORBELL</Text>
+        <Text style={styles.tagline}>LIGHTNING FAST ANSWERS</Text>
+        <BoxForm style={styles.boxForm}>
+          <BoxForm.Field isFirst={true}>
+            <BoxForm.Label>EMAIL</BoxForm.Label>
+            <BoxForm.TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              enablesReturnKeyAutomatically={true}
+              keyboardType="email-address"
+              onChangeText={value => this._onInputChange('email', value)}
+              placeholder="name@example.com"
+              placeholderTextColor={colors.get('textSuperUnpronounced')}
+              returnKeyType="next"
+              />
+          </BoxForm.Field>
+          <BoxForm.Field>
+            <BoxForm.Label>PASSWORD</BoxForm.Label>
+            <BoxForm.TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              enablesReturnKeyAutomatically={true}
+              onChangeText={value => this._onInputChange('password', value)}
+              placeholder="Required"
+              placeholderTextColor={colors.get('textSuperUnpronounced')}
+              returnKeyType="go"
+              secureTextEntry={true}
+              />
+          </BoxForm.Field>
+          <BoxForm.Field isButton={true} isLast={true}>
+            <BoxForm.Button
+              isDisabled={this.props.signingIn}
+              onPress={this._signIn.bind(this)}>
+              SIGN IN
+            </BoxForm.Button>
+          </BoxForm.Field>
+        </BoxForm>
+        <TouchableOpacity>
+          <Text style={styles.forgotPassword}>FORGOT YOUR PASSWORD?</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -49,17 +86,41 @@ export default class SignIn extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'stretch',
+    backgroundColor: colors.get('tint'),
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
     padding: 30,
   },
 
-  input: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    height: 30,
-    padding: 5,
-    width: 100,
+  logo: {
+    color: colors.get('white'),
+    fontFamily: fonts.get('base'),
+    fontSize: 36,
+    letterSpacing: 1.8,
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+
+  tagline: {
+    color: colors.get('tintAlt'),
+    fontFamily: fonts.get('base'),
+    fontSize: 18,
+    letterSpacing: 1.5,
+    textAlign: 'center',
+  },
+
+  forgotPassword: {
+    color: colors.get('tintAlt'),
+    fontFamily: fonts.get('base'),
+    fontSize: 14,
+    letterSpacing: 1,
+    textAlign: 'center',
+  },
+
+  boxForm: {
+    marginBottom: 40,
+    marginTop: 40,
   },
 });
