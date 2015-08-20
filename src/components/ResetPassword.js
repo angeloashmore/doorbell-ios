@@ -1,5 +1,5 @@
-import React, { Component, PropTypes, AlertIOS, StatusBarIOS, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import NavigationBar from 'react-native-navbar';
+import React, { Component, PropTypes, Animated, AlertIOS, StatusBarIOS, StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import KeyboardEvents, { Emitter as KeyboardEventEmitter } from 'react-native-keyboardevents';
 import { colors, fonts } from '../styles';
 import { BoxForm } from '../elements';
 
@@ -11,9 +11,22 @@ export default class ResetPassword extends Component {
   state = {
     email: null,
     password: null,
+    keyboardSpace: new Animated.Value(0),
+    keyboardOpen: false,
+  }
+
+  componentDidMount() {
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
+  }
+
+  componentWillUnmount() {
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
   }
 
   render() {
+    const { keyboardOpen } = this.state;
     const { hideResetPassword } = this.props;
 
     return (
@@ -21,9 +34,13 @@ export default class ResetPassword extends Component {
         <TouchableOpacity
           onPress={hideResetPassword}
           style={styles.close}>
-          <Text>Close</Text>
+          <Image source={require('../assets/images/navbar-close-icon.png')} />
         </TouchableOpacity>
-        <Text style={styles.text}>Enter your email address and new password below.</Text>
+
+        {!keyboardOpen ? (
+          <Text style={styles.text}>Enter your email address and new password below.</Text>
+        ) : null}
+
         <BoxForm style={styles.boxForm}>
           <BoxForm.Field isFirst={true}>
             <BoxForm.Label>EMAIL</BoxForm.Label>
@@ -59,7 +76,10 @@ export default class ResetPassword extends Component {
             </BoxForm.Button>
           </BoxForm.Field>
         </BoxForm>
+
         <Text style={styles.text}>We'll send you an email with a link to activate your new password.</Text>
+
+        <Animated.View style={{ height: this.state.keyboardSpace }}></Animated.View>
       </View>
     );
   }
@@ -72,6 +92,22 @@ export default class ResetPassword extends Component {
     const { signIn } = this.props;
     const { email, password } = this.state;
     signIn(email, password);
+  }
+
+  _updateKeyboardSpace(frames) {
+    Animated.spring(
+      this.state.keyboardSpace,
+      { toValue: frames.end.height }
+    ).start();
+    this.setState({ keyboardOpen: true });
+  }
+
+  _resetKeyboardSpace() {
+    Animated.spring(
+      this.state.keyboardSpace,
+      { toValue: 0 }
+    ).start();
+    this.setState({ keyboardOpen: false });
   }
 }
 

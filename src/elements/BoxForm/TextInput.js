@@ -1,7 +1,7 @@
-import React, { Component, PropTypes, StyleSheet, TextInput } from 'react-native';
+import React, { StyleSheet, TextInput } from 'react-native';
 import { colors, fonts } from '../../styles';
 
-export default class BoxFormTextInput extends Component {
+export default class BoxFormTextInput extends TextInput {
   render() {
     return (
       <TextInput

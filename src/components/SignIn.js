@@ -1,7 +1,8 @@
-import React, { Component, PropTypes, AlertIOS, StatusBarIOS, StyleSheet, Modal, View, Text, TouchableOpacity } from 'react-native';
+import React, { Component, PropTypes, Animated, AlertIOS, StatusBarIOS, StyleSheet, Modal, View, Text, TouchableOpacity } from 'react-native';
+import KeyboardEvents, { Emitter as KeyboardEventEmitter } from 'react-native-keyboardevents';
 import { colors, fonts } from '../styles';
 import { ResetPassword } from '../components';
-import { BoxForm } from '../elements';
+import { BoxForm, ModalNavigator } from '../elements';
 
 export default class SignIn extends Component {
   static propTypes = {
@@ -18,6 +19,17 @@ export default class SignIn extends Component {
     email: null,
     password: null,
     showResetPassword: false,
+    keyboardSpace: new Animated.Value(0),
+  }
+
+  componentDidMount() {
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
+  }
+
+  componentWillUnmount() {
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,8 +56,10 @@ export default class SignIn extends Component {
               enablesReturnKeyAutomatically={true}
               keyboardType="email-address"
               onChangeText={value => this._onInputChange('email', value)}
+              onSubmitEditing={() => this.refs.password.focus()}
               placeholder="name@example.com"
               placeholderTextColor={colors.get('textSuperUnpronounced')}
+              ref="email"
               returnKeyType="next"
               />
           </BoxForm.Field>
@@ -57,8 +71,10 @@ export default class SignIn extends Component {
               clearButtonMode="while-editing"
               enablesReturnKeyAutomatically={true}
               onChangeText={value => this._onInputChange('password', value)}
+              onSubmitEditing={this._signIn.bind(this)}
               placeholder="Required"
               placeholderTextColor={colors.get('textSuperUnpronounced')}
+              ref="password"
               returnKeyType="go"
               secureTextEntry={true}
               />
@@ -79,6 +95,8 @@ export default class SignIn extends Component {
         <Modal animated={true} visible={showResetPassword}>
           <ResetPassword hideResetPassword={this._toggleShowResetPassword.bind(this)} />
         </Modal>
+
+        <Animated.View style={{ height: this.state.keyboardSpace }}></Animated.View>
       </View>
     );
   }
@@ -97,6 +115,20 @@ export default class SignIn extends Component {
     const { showResetPassword } = this.state;
     this.setState({ showResetPassword: !showResetPassword });
   }
+
+  _updateKeyboardSpace(frames) {
+    Animated.spring(
+      this.state.keyboardSpace,
+      { toValue: frames.end.height }
+    ).start();
+  }
+
+  _resetKeyboardSpace() {
+    Animated.spring(
+      this.state.keyboardSpace,
+      { toValue: 0 }
+    ).start();
+  }
 }
 
 const styles = StyleSheet.create({
@@ -106,7 +138,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    padding: 30,
+    paddingTop: 30,
+    paddingRight: 30,
+    paddingBottom: 30,
+    paddingLeft: 30,
   },
 
   logo: {
