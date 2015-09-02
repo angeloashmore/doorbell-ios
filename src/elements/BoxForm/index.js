@@ -1,14 +1,13 @@
-import React, { Component, View } from 'react-native';
+import React, { Component, PropTypes, View } from 'react-native';
 import Button from './Button';
 import Field from './Field';
 import Label from './Label';
 import TextInput from './TextInput';
 
 export default class BoxForm extends Component {
-  static Button = Button;
-  static Field = Field;
-  static Label = Label;
-  static TextInput = TextInput;
+  static propTypes = {
+    children: PropTypes.element,
+  }
 
   render() {
     return (
@@ -17,4 +16,9 @@ export default class BoxForm extends Component {
       </View>
     );
   }
+
+  static Button = Button;
+  static Field = Field;
+  static Label = Label;
+  static TextInput = TextInput;
 }

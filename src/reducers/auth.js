@@ -46,7 +46,6 @@ export default function auth(state = initialState, action = {}) {
     });
 
   case actionTypes.CHANGE_PASSWORD_ERROR:
-    console.log(action.error)
     return Object.assign({}, state, {
       changingPassword: false,
       changePasswordError: {

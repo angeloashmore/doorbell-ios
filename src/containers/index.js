@@ -6,4 +6,4 @@ export {
   ChangePasswordContainer,
   EntryContainer,
   SignInContainer,
-}
+};

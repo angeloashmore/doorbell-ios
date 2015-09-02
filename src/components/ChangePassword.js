@@ -17,21 +17,9 @@ export default class ChangePassword extends Component {
     success: false,
   }
 
-  state = {
-    email: null,
-    password: null,
-    keyboardSpace: new Animated.Value(0),
-    keyboardOpen: false,
-  }
-
   componentDidMount() {
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
-  }
-
-  componentWillUnmount() {
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,6 +30,11 @@ export default class ChangePassword extends Component {
       AlertIOS.alert('Email sent!', 'Check your email to activate your new password.');
       this.props.closeModal();
     }
+  }
+
+  componentWillUnmount() {
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
   }
 
   render() {
@@ -108,12 +101,19 @@ export default class ChangePassword extends Component {
     );
   }
 
+  state = {
+    email: null,
+    password: null,
+    keyboardSpace: new Animated.Value(0),
+    keyboardOpen: false,
+  }
+
   _onInputChange(fieldName, value) {
     this.setState(state => state[fieldName] = value);
   }
 
   _changePassword() {
-    const { changePassword, hideChangePassword } = this.props;
+    const { changePassword } = this.props;
     const { email, password } = this.state;
     changePassword(email, password);
   }

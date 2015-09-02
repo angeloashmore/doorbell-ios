@@ -1,9 +1,11 @@
-import React, { Component, PropTypes, StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { colors, fonts } from '../../styles';
 
 export default class BoxFormButton extends Component {
   static propTypes = {
+    children: PropTypes.element,
     isDisabled: PropTypes.bool.isRequired,
+    style: PropTypes.object,
   }
 
   static defaultProps = {
@@ -18,7 +20,7 @@ export default class BoxFormButton extends Component {
       <ProperComponent
         style={[
           styles.button,
-          this.props.styles,
+          this.props.style,
         ]}
         {...this.props}>
         <Text
@@ -49,5 +51,5 @@ const styles = StyleSheet.create({
 
   disabled: {
     color: colors.get('textUnpronounced'),
-  }
+  },
 });

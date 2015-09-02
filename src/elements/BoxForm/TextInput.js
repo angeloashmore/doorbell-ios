@@ -1,14 +1,19 @@
-import React, { StyleSheet, TextInput } from 'react-native';
+import React, { PropTypes, StyleSheet, TextInput } from 'react-native';
 import { colors, fonts } from '../../styles';
 
 export default class BoxFormTextInput extends TextInput {
+  static propTypes = {
+    clearButtonMode: PropTypes.string,
+    style: PropTypes.object,
+  }
+
   render() {
     return (
       <TextInput
         style={[
           styles.textInput,
           this.props.clearButtonMode && this.props.clearButtonMode !== 'never' && styles.textInputWithClearButton,
-          this.props.style
+          this.props.style,
         ]}
         {...this.props}
         />

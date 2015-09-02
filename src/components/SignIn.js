@@ -2,7 +2,7 @@ import React, { Component, PropTypes, Animated, AlertIOS, StatusBarIOS, StyleShe
 import KeyboardEvents, { Emitter as KeyboardEventEmitter } from 'react-native-keyboardevents';
 import { colors, fonts } from '../styles';
 import { ChangePasswordContainer } from '../containers';
-import { BoxForm, ModalNavigator } from '../elements';
+import { BoxForm } from '../elements';
 
 export default class SignIn extends Component {
   static propTypes = {
@@ -15,27 +15,20 @@ export default class SignIn extends Component {
     loading: false,
   }
 
-  state = {
-    email: null,
-    password: null,
-    showChangePassword: false,
-    keyboardSpace: new Animated.Value(0),
-  }
-
   componentDidMount() {
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
-  }
-
-  componentWillUnmount() {
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
     const { loading, error } = nextProps;
     StatusBarIOS.setNetworkActivityIndicatorVisible(loading);
     if (error) AlertIOS.alert('Sign In Error', error.message);
+  }
+
+  componentWillUnmount() {
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
   }
 
   render() {
@@ -99,6 +92,13 @@ export default class SignIn extends Component {
         <Animated.View style={{ height: this.state.keyboardSpace }}></Animated.View>
       </View>
     );
+  }
+
+  state = {
+    email: null,
+    password: null,
+    showChangePassword: false,
+    keyboardSpace: new Animated.Value(0),
   }
 
   _onInputChange(fieldName, value) {
