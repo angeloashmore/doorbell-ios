@@ -53,6 +53,7 @@
   UIViewController *rootViewController = [[UIViewController alloc] init];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+  [self.window setTintColor:[UIColor colorWithRed:0.941 green:0.333 blue:0.243 alpha:1] /*#f0553e*/];
   [self.window makeKeyAndVisible];
   return YES;
 }

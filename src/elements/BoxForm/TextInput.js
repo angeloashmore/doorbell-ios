@@ -7,6 +7,7 @@ export default class BoxFormTextInput extends TextInput {
       <TextInput
         style={[
           styles.textInput,
+          this.props.clearButtonMode && this.props.clearButtonMode !== 'never' && styles.textInputWithClearButton,
           this.props.style
         ]}
         {...this.props}
@@ -22,5 +23,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.get('base'),
     fontSize: 20,
     height: 24,
+  },
+
+  textInputWithClearButton: {
+    marginRight: -10,
   },
 });
