@@ -1,8 +1,6 @@
 import React, { Component, PropTypes, StyleSheet, ListView, View, Text } from 'react-native';
 import { colors, fonts } from '../../styles';
 import { AlertIndicator, ListItem, Tag } from '../../elements';
-import { PropertiesNavigationBar } from './NavigationBars';
-import Properties from './Properties';
 
 export default class Teams extends Component {
   static propTypes = {
@@ -31,9 +29,9 @@ export default class Teams extends Component {
         accessory="disclosure"
         onPress={this._handlePress.bind(this)}>
         <Tag
-          color={colors.get('green')}
+          color={colors.get('purple')}
           style={styles.tag}>
-          REAL ESTATE AGENT
+          A PROPERTY
         </Tag>
 
         <ListItem.Title style={styles.title}>
@@ -54,8 +52,8 @@ export default class Teams extends Component {
   _handlePress() {
     const { navigator, route } = this.props;
     navigator.push({
-      component: Properties,
-      navigationBar: <PropertiesNavigationBar />,
+      component: Teams,
+      navigationBar: route.navigationBar,
     });
   }
 }

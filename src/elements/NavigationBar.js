@@ -18,12 +18,22 @@ export default class NavigationBar extends NavBar {
     );
   }
 
+  state = {
+    title: this.props.title,
+  }
+
   _renderCustomTitle() {
+    const { title } = this.state;
+
     return (
       <View style={styles.title}>
-        <Text style={styles.titleText}>{this.props.title}</Text>
+        <Text style={styles.titleText}>{title}</Text>
       </View>
     );
+  }
+
+  setTitle(title) {
+    this.state({ title });
   }
 }
 
