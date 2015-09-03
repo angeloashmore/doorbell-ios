@@ -11,6 +11,7 @@ export default class Teams extends Component {
   render() {
     return (
       <ListView
+        automaticallyAdjustContentInsets={false}
         dataSource={this.state.dataSource.cloneWithRows(['COLDWELL BANKER PACIFIC PROPERTIES — HONOLULU', 'DOORBELL'])}
         renderRow={this._renderRow.bind(this)}
         style={styles.list}

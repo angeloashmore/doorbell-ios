@@ -13,7 +13,6 @@ export default class Main extends Component {
           component: Teams,
           navigationBar: this._renderNavigationBar(),
         }}
-        sceneStyle={styles.scene}
         />
     );
   }
