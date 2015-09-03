@@ -25,6 +25,10 @@ colors.set('text', color(white).darken(0.7));
 colors.set('textUnpronounced', color(white).darken(0.3));
 colors.set('textSuperUnpronounced', color(white).darken(0.1));
 
+// Tag Colors
+colors.set('tagGreen', color('#a6e864'));
+colors.set('tagPurple', color('#e18df2'));
+
 // Transform color objects to RGB strings
 colors.forEach((value, key) => colors.set(key, value.rgbString()));
 

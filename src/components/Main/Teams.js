@@ -1,4 +1,5 @@
 import React, { Component, PropTypes, StyleSheet, ListView } from 'react-native';
+import { colors } from '../../styles';
 import { ListItem, Tag } from '../../elements';
 
 export default class Teams extends Component {
@@ -26,7 +27,7 @@ export default class Teams extends Component {
       <ListItem
         accessory="disclosure"
         onPress={this._handlePress.bind(this)}>
-        <Tag>REAL ESTATE AGENT</Tag>
+        <Tag color={colors.get('tagGreen')}>REAL ESTATE AGENT</Tag>
         <ListItem.Title>{rowData}</ListItem.Title>
         <ListItem.Subtitle>8 properties</ListItem.Subtitle>
       </ListItem>

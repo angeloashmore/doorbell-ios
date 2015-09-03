@@ -1,19 +1,34 @@
 import React, { Component, PropTypes, StyleSheet, View, Text } from 'react-native';
-import { fonts } from '../styles';
+import color from 'color';
+import { colors, fonts } from '../styles';
 
 export default class Tag extends Component {
   static propTypes = {
     children: PropTypes.node,
+    color: PropTypes.string,
   }
 
   render() {
     return (
-      <View style={styles.tag}>
-        <Text style={styles.text}>
+      <View style={[
+        styles.tag,
+        { backgroundColor: this.props.color },
+      ]}>
+        <Text
+          style={[
+            styles.text,
+            this._textColor(),
+          ]}>
           {this.props.children}
         </Text>
       </View>
     );
+  }
+
+  _textColor() {
+    return {
+      color: color(this.props.color).darken(0.6).rgbString(),
+    };
   }
 }
 
@@ -21,7 +36,6 @@ const styles = StyleSheet.create({
   tag: {
     alignSelf: 'flex-start',
     borderRadius: 4,
-    backgroundColor: '#A6E864',
     marginBottom: 5,
     paddingBottom: 3,
     paddingLeft: 5,
@@ -30,7 +44,6 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: 'rgba(0, 0, 0, 0.5)',
     flex: 0,
     fontFamily: fonts.get('base'),
     fontSize: 10,
