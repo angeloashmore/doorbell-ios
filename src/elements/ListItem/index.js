@@ -8,6 +8,7 @@ export default class ListItem extends Component {
     accessory: PropTypes.oneOf(['disclosure']),
     children: PropTypes.node,
     onPress: PropTypes.func,
+    style: PropTypes.object,
   }
 
   render() {
@@ -15,7 +16,11 @@ export default class ListItem extends Component {
 
     return (
       <TouchableHighlight onPress={onPress}>
-        <View style={styles.row}>
+        <View
+          style={[
+            styles.row,
+            this.props.style,
+          ]}>
           <View style={styles.body}>
             {this.props.children}
           </View>

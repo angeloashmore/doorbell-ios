@@ -6,6 +6,7 @@ export default class Tag extends Component {
   static propTypes = {
     children: PropTypes.node,
     color: PropTypes.string,
+    style: PropTypes.object,
   }
 
   render() {
@@ -13,6 +14,7 @@ export default class Tag extends Component {
       <View style={[
         styles.tag,
         { backgroundColor: this.props.color },
+        this.props.style,
       ]}>
         <Text
           style={[
@@ -36,7 +38,6 @@ const styles = StyleSheet.create({
   tag: {
     alignSelf: 'flex-start',
     borderRadius: 4,
-    marginBottom: 5,
     paddingBottom: 3,
     paddingLeft: 5,
     paddingRight: 5,

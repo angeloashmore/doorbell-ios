@@ -1,6 +1,6 @@
-import React, { Component, PropTypes, StyleSheet, ListView } from 'react-native';
-import { colors } from '../../styles';
-import { ListItem, Tag } from '../../elements';
+import React, { Component, PropTypes, StyleSheet, ListView, View, Text } from 'react-native';
+import { colors, fonts } from '../../styles';
+import { AlertIndicator, ListItem, Tag } from '../../elements';
 
 export default class Teams extends Component {
   static propTypes = {
@@ -27,9 +27,23 @@ export default class Teams extends Component {
       <ListItem
         accessory="disclosure"
         onPress={this._handlePress.bind(this)}>
-        <Tag color={colors.get('tagGreen')}>REAL ESTATE AGENT</Tag>
-        <ListItem.Title>{rowData}</ListItem.Title>
-        <ListItem.Subtitle>8 properties</ListItem.Subtitle>
+        <Tag
+          color={colors.get('tagGreen')}
+          style={styles.tag}>
+          REAL ESTATE AGENT
+        </Tag>
+
+        <ListItem.Title style={styles.title}>
+          {rowData}
+        </ListItem.Title>
+
+        <AlertIndicator style={styles.alertIndicator}>
+          3 new messages
+        </AlertIndicator>
+
+        <ListItem.Subtitle>
+          8 properties
+        </ListItem.Subtitle>
       </ListItem>
     );
   }
@@ -46,5 +60,17 @@ export default class Teams extends Component {
 const styles = StyleSheet.create({
   list: {
     flex: 1,
+  },
+
+  tag: {
+    marginBottom: 8,
+  },
+
+  title: {
+    marginBottom: 5,
+  },
+
+  alertIndicator: {
+    marginBottom: 5,
   },
 });
