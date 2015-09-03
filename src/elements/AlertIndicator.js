@@ -17,7 +17,7 @@ export default class AlertIndicator extends Component {
         <View style={styles.dot} />
         {this.props.children ? (
           <Text style={styles.text}>{this.props.children}</Text>
-        ) : ""}
+        ) : null}
       </View>
     );
   }
