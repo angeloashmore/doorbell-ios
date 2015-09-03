@@ -1,7 +1,7 @@
 import React, { Component, PropTypes, Animated, AlertIOS, StatusBarIOS, StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import KeyboardEvents, { Emitter as KeyboardEventEmitter } from 'react-native-keyboardevents';
-import { colors, fonts } from '../styles';
-import { BoxForm } from '../elements';
+import { colors, fonts } from '../../styles';
+import { BoxForm } from '../../elements';
 
 export default class ChangePassword extends Component {
   static propTypes = {
@@ -46,7 +46,7 @@ export default class ChangePassword extends Component {
         <TouchableOpacity
           onPress={closeModal}
           style={styles.close}>
-          <Image source={require('../assets/images/navbar-close-icon.png')} />
+          <Image source={require('../../assets/images/navbar-close-icon.png')} />
         </TouchableOpacity>
 
         {!keyboardOpen ? (

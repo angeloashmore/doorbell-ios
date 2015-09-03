@@ -1,8 +1,8 @@
 import React, { Component, PropTypes, Animated, AlertIOS, StatusBarIOS, StyleSheet, Modal, View, Text, TouchableOpacity } from 'react-native';
 import KeyboardEvents, { Emitter as KeyboardEventEmitter } from 'react-native-keyboardevents';
-import { colors, fonts } from '../styles';
-import { ChangePasswordContainer } from '../containers';
-import { BoxForm } from '../elements';
+import { colors, fonts } from '../../styles';
+import { ChangePasswordContainer } from '../../containers';
+import { BoxForm } from '../../elements';
 
 export default class SignIn extends Component {
   static propTypes = {

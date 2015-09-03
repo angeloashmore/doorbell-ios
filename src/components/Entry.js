@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react-native';
-import { Main } from '../components';
+import { MainNavigator } from './Main';
 import { SignInContainer } from '../containers';
 
 export default class Entry extends Component {
@@ -13,6 +13,6 @@ export default class Entry extends Component {
 
   render() {
     const { isSignedIn } = this.props;
-    return isSignedIn ? <Main /> : <SignInContainer />;
+    return isSignedIn ? <MainNavigator /> : <SignInContainer />;
   }
 }

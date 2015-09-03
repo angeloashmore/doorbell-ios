@@ -10,7 +10,7 @@
     "color": "^0.10.1",
     "react-native": "^0.10.0",
     "react-native-keyboardevents": "^0.4.5",
-    "react-native-navbar": "^0.8.0",
+    "react-native-navbar": "angeloashmore/react-native-navbar",
     "react-redux": "^0.9.0",
     "redux": "^1.0.1",
     "redux-logger": "0.0.3",

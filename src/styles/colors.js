@@ -14,12 +14,15 @@ colors.set('black', color(black));
 colors.set('tint', color(tint));
 colors.set('tintAlt', color(tint).darken(0.5));
 
+// Backgrounds
+colors.set('background', color(white).darken(0.05));
+
 // Dividers
 colors.set('divider', color(white).darken(0.05));
 
 // Text
 colors.set('text', color(white).darken(0.7));
-colors.set('textUnpronounced', color(white).darken(0.4));
+colors.set('textUnpronounced', color(white).darken(0.3));
 colors.set('textSuperUnpronounced', color(white).darken(0.1));
 
 // Transform color objects to RGB strings

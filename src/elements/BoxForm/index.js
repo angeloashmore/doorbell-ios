@@ -6,7 +6,7 @@ import TextInput from './TextInput';
 
 export default class BoxForm extends Component {
   static propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.node,
   }
 
   render() {

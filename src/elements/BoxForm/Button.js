@@ -3,7 +3,7 @@ import { colors, fonts } from '../../styles';
 
 export default class BoxFormButton extends Component {
   static propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.node,
     isDisabled: PropTypes.bool.isRequired,
     style: PropTypes.object,
   }

@@ -3,7 +3,7 @@ import { colors, fonts } from '../../styles';
 
 export default class BoxFormLabel extends Component {
   static propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.node,
     style: PropTypes.object,
   }
 

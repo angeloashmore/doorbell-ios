@@ -1,11 +1,9 @@
-import ChangePassword from './ChangePassword';
+import Auth from './Auth';
 import Entry from './Entry';
 import Main from './Main';
-import SignIn from './SignIn';
 
 export {
-  ChangePassword,
+  Auth,
   Entry,
   Main,
-  SignIn,
 };
