@@ -28,9 +28,12 @@ colors.set('textSuperUnpronounced', color(white).darken(0.1));
 // Alerts
 colors.set('alert', color(tint));
 
-// Tag Colors
-colors.set('tagGreen', color('#a6e864'));
-colors.set('tagPurple', color('#e18df2'));
+// Accent Colors
+colors.set('green', color('#a6e864'));
+colors.set('purple', color('#e18df2'));
+colors.set('yellow', color('#f5d000'));
+colors.set('blue', color('#57a5ff'));
+colors.set('orange', color('#f5a623'));
 
 // Transform color objects to RGB strings
 colors.forEach((value, key) => colors.set(key, value.rgbString()));

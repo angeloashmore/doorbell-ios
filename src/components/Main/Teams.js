@@ -28,7 +28,7 @@ export default class Teams extends Component {
         accessory="disclosure"
         onPress={this._handlePress.bind(this)}>
         <Tag
-          color={colors.get('tagGreen')}
+          color={colors.get('green')}
           style={styles.tag}>
           REAL ESTATE AGENT
         </Tag>
