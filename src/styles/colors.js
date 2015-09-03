@@ -22,6 +22,7 @@ colors.set('divider', color(white).darken(0.05));
 
 // Text
 colors.set('text', color(white).darken(0.7));
+colors.set('textSlightlyUnpronounced', color(white).darken(0.4));
 colors.set('textUnpronounced', color(white).darken(0.3));
 colors.set('textSuperUnpronounced', color(white).darken(0.1));
 

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, StyleSheet, View, Text } from 'react-native';
+import React, { PropTypes, StyleSheet, View, Text } from 'react-native';
 import NavBar from 'react-native-navbar';
 import { colors, fonts } from '../styles';
 
@@ -23,7 +23,8 @@ export default class NavigationBar extends NavBar {
   }
 
   _renderCustomTitle() {
-    const { title } = this.state;
+    let { title } = this.state;
+    title = title.toUpperCase();
 
     return (
       <View style={styles.title}>

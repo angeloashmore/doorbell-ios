@@ -1,13 +1,19 @@
-import React, { Component, PropTypes, StyleSheet, ListView, View, Text } from 'react-native';
-import { colors, fonts } from '../../styles';
-import { AlertIndicator, ListItem, Tag } from '../../elements';
-import { PropertiesNavigationBar } from './NavigationBars';
+import React, { Component, PropTypes, StyleSheet, ListView } from 'react-native';
+import { colors } from '../../styles';
+import { AlertIndicator, ListItem, NavigationBar, Tag } from '../../elements';
 import Properties from './Properties';
 
 export default class Teams extends Component {
   static propTypes = {
     navigator: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+    };
   }
 
   render() {
@@ -19,10 +25,6 @@ export default class Teams extends Component {
         style={styles.list}
         />
     );
-  }
-
-  state = {
-    dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
   }
 
   _renderRow(rowData) {
@@ -52,12 +54,14 @@ export default class Teams extends Component {
   }
 
   _handlePress() {
-    const { navigator, route } = this.props;
+    const { navigator } = this.props;
     navigator.push({
       component: Properties,
-      navigationBar: <PropertiesNavigationBar />,
+      navigationBar: Properties.NavigationBar,
     });
   }
+
+  static NavigationBar = <NavigationBar title="Teams" />;
 }
 
 const styles = StyleSheet.create({

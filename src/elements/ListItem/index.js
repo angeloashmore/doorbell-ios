@@ -5,7 +5,8 @@ import Subtitle from './Subtitle';
 
 export default class ListItem extends Component {
   static propTypes = {
-    accessory: PropTypes.oneOf(['disclosure']),
+    leftAccessory: PropTypes.node,
+    rightAccessory: PropTypes.oneOf(['disclosure']),
     children: PropTypes.node,
     onPress: PropTypes.func,
     style: PropTypes.object,
@@ -21,10 +22,11 @@ export default class ListItem extends Component {
             styles.row,
             this.props.style,
           ]}>
+          {this._renderLeftAccessory()}
           <View style={styles.body}>
             {this.props.children}
           </View>
-          {this._renderAccessory()}
+          {this._renderRightAccessory()}
         </View>
       </TouchableHighlight>
     );
@@ -33,20 +35,32 @@ export default class ListItem extends Component {
   static Title = Title;
   static Subtitle = Subtitle;
 
-  _renderAccessory() {
-    const { accessory } = this.props;
+  _renderLeftAccessory() {
+    const { leftAccessory } = this.props;
+
+    if (!leftAccessory) return null;
+
+    return (
+      <View style={styles.leftAccessory}>
+        {leftAccessory}
+      </View>
+    );
+  }
+
+  _renderRightAccessory() {
+    const { rightAccessory } = this.props;
 
     let element;
-    switch (accessory) {
+    switch (rightAccessory) {
     case 'disclosure':
       element = <Image source={require('../../assets/images/listview-accessory-disclosure.png')} />;
       break;
 
-    default: break;
+    default: return null;
     }
 
     return (
-      <View style={styles.accessory}>
+      <View style={styles.rightAccessory}>
         {element}
       </View>
     );
@@ -69,7 +83,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  accessory: {
+  leftAccessory: {
+    marginRight: 11,
+  },
+
+  rightAccessory: {
     marginLeft: 15,
   },
 });

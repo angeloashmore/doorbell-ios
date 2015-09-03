@@ -13,7 +13,6 @@ export default class Entry extends Component {
 
   render() {
     const { isSignedIn } = this.props;
-    // return isSignedIn ? <MainNavigator /> : <SignInContainer />;
-    return <MainNavigator />;
+    return isSignedIn ? <MainNavigator /> : <SignInContainer />;
   }
 }

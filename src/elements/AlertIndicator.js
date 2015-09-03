@@ -1,8 +1,9 @@
-import React, { Component, StyleSheet, View, Text } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, View, Text } from 'react-native';
 import { colors, fonts } from '../styles';
+import Dot from './Dot';
 
 export default class AlertIndicator extends Component {
-  static propTypes: {
+  static propTypes = {
     children: PropTypes.string,
     style: PropTypes.number,
   }
@@ -14,7 +15,10 @@ export default class AlertIndicator extends Component {
           styles.alertIndicator,
           this.props.style,
         ]}>
-        <View style={styles.dot} />
+        <Dot
+          color={colors.get('alert')}
+          diameter={14} />
+
         {this.props.children ? (
           <Text style={styles.text}>{this.props.children}</Text>
         ) : null}

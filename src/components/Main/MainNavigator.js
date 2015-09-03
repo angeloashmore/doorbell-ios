@@ -1,9 +1,8 @@
-import React, { Component, StyleSheet, Navigator, View, Text } from 'react-native';
+import React, { Component, StyleSheet, Navigator, View } from 'react-native';
+import { colors } from '../../styles';
 import Teams from './Teams';
-import { colors, fonts } from '../../styles';
-import { NavigationBar } from '../../elements';
 
-export default class Main extends Component {
+export default class MainNavigator extends Component {
   render() {
     return (
       <Navigator
@@ -11,7 +10,7 @@ export default class Main extends Component {
         renderScene={this._renderScene}
         initialRoute={{
           component: Teams,
-          navigationBar: <NavigationBar title="TEAMS" />
+          navigationBar: Teams.NavigationBar,
         }}
         />
     );
