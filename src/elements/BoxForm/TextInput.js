@@ -4,7 +4,7 @@ import { colors, fonts } from '../../styles';
 export default class BoxFormTextInput extends TextInput {
   static propTypes = {
     clearButtonMode: PropTypes.string,
-    style: PropTypes.object,
+    style: PropTypes.number,
   }
 
   render() {

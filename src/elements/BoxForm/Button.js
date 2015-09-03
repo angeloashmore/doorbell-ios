@@ -5,7 +5,7 @@ export default class BoxFormButton extends Component {
   static propTypes = {
     children: PropTypes.node,
     isDisabled: PropTypes.bool.isRequired,
-    style: PropTypes.object,
+    style: PropTypes.number,
   }
 
   static defaultProps = {

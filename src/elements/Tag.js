@@ -6,7 +6,7 @@ export default class Tag extends Component {
   static propTypes = {
     children: PropTypes.node,
     color: PropTypes.string,
-    style: PropTypes.object,
+    style: PropTypes.number,
   }
 
   render() {

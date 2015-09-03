@@ -4,7 +4,7 @@ import { colors, fonts } from '../../styles';
 export default class Subtitle extends Component {
   static propTypes = {
     children: PropTypes.node,
-    style: PropTypes.object,
+    style: PropTypes.number,
   }
 
   render() {

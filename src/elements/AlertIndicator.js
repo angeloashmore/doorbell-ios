@@ -4,7 +4,7 @@ import { colors, fonts } from '../styles';
 export default class AlertIndicator extends Component {
   static propTypes: {
     children: PropTypes.string,
-    style: PropTypes.object,
+    style: PropTypes.number,
   }
 
   render() {

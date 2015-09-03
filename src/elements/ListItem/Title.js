@@ -4,7 +4,7 @@ import { colors, fonts } from '../../styles';
 export default class Title extends Component {
   static propTypes = {
     children: PropTypes.node,
-    style: PropTypes.object,
+    style: PropTypes.number,
   }
 
   render() {
