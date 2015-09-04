@@ -1,6 +1,7 @@
 import React, { PropTypes, StyleSheet, View, Text } from 'react-native';
 import NavBar from 'react-native-navbar';
-import { colors, fonts } from '../styles';
+import { colors, fonts } from '../../styles';
+import Prev from './Prev';
 
 export default class NavigationBar extends NavBar {
   static propTypes = {
@@ -22,6 +23,11 @@ export default class NavigationBar extends NavBar {
     title: this.props.title,
   }
 
+  static STATUS_BAR_HEIGHT = 15;
+  static NAVIGATION_BAR_HEIGHT = 65;
+  static TOTAL_HEIGHT = 80;
+  static Prev = Prev;
+
   _renderCustomTitle() {
     let { title } = this.state;
     title = title.toUpperCase();
@@ -41,12 +47,14 @@ export default class NavigationBar extends NavBar {
 const styles = StyleSheet.create({
   navBarContainer: {
     backgroundColor: colors.get('tint'),
-    height: 80,
+    height: NavigationBar.TOTAL_HEIGHT,
   },
 
   navBar: {
-    marginTop: 15,
-    height: 65,
+    alignItems: 'flex-end',
+    marginTop: NavigationBar.STATUS_BAR_HEIGHT,
+    height: NavigationBar.NAVIGATION_BAR_HEIGHT,
+    position: 'relative',
   },
 
   title: {

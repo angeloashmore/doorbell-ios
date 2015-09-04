@@ -1,7 +1,8 @@
 import React, { Component, PropTypes, StyleSheet, TouchableHighlight, View, Image } from 'react-native';
 import { colors } from '../../styles';
-import Title from './Title';
+import Detail from './Detail';
 import Subtitle from './Subtitle';
+import Title from './Title';
 
 export default class ListItem extends Component {
   static propTypes = {
@@ -32,8 +33,9 @@ export default class ListItem extends Component {
     );
   }
 
-  static Title = Title;
+  static Detail = Detail;
   static Subtitle = Subtitle;
+  static Title = Title;
 
   _renderLeftAccessory() {
     const { leftAccessory } = this.props;
@@ -77,6 +79,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 0.5,
     padding: 15,
+    position: 'relative',
   },
 
   body: {

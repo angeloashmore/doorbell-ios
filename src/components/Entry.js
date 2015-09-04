@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react-native';
 import { MainNavigator } from './Main';
 import { SignInContainer } from '../containers';
+import { Teams } from './Main';
 
 export default class Entry extends Component {
   static propTypes = {
@@ -13,6 +14,13 @@ export default class Entry extends Component {
 
   render() {
     const { isSignedIn } = this.props;
-    return isSignedIn ? <MainNavigator /> : <SignInContainer />;
+
+    const initialRoute = {
+      component: Teams,
+      navigationBar: Teams.NavigationBar,
+    };
+
+    return isSignedIn ? <MainNavigator initialRoute={initialRoute} /> : <SignInContainer />;
+    // return <MainNavigator initialRoute={initialRoute} />;
   }
 }

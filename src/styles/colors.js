@@ -21,10 +21,10 @@ colors.set('background', color(white).darken(0.05));
 colors.set('divider', color(white).darken(0.05));
 
 // Text
-colors.set('text', color(white).darken(0.7));
-colors.set('textSlightlyUnpronounced', color(white).darken(0.4));
-colors.set('textUnpronounced', color(white).darken(0.3));
-colors.set('textSuperUnpronounced', color(white).darken(0.1));
+colors.set('text', color(white).darken(0.8));
+colors.set('textSlightlyUnpronounced', color(white).darken(0.6));
+colors.set('textUnpronounced', color(white).darken(0.4));
+colors.set('textSuperUnpronounced', color(white).darken(0.2));
 
 // Alerts
 colors.set('alert', color(tint));

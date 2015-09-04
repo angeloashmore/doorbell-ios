@@ -61,7 +61,11 @@ export default class Teams extends Component {
     });
   }
 
-  static NavigationBar = <NavigationBar title="Teams" />;
+  static NavigationBar = (
+    <NavigationBar
+      hidePrev={true}
+      title="Teams" />
+  );
 }
 
 const styles = StyleSheet.create({

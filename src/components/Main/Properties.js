@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, StyleSheet, ListView } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, ListView, Image } from 'react-native';
 import { colors } from '../../styles';
 import { Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
 import Teams from './Teams';
@@ -36,16 +36,19 @@ export default class Properties extends Component {
         0: {
           title: 'Prospectives',
           subtitle: '1 new message from Jasmine',
+          time: '12:04 PM',
         },
       },
       'Properties': {
         0: {
           title: '680 Ala Moana Blvd.',
           subtitle: '2 new messages from Aaron and 1 other',
+          time: '9:32 AM',
         },
         1: {
           title: '3439 Ala Hapuu St.',
           subtitle: '3 active chats',
+          time: '6:41 AM',
         },
       },
     });
@@ -63,15 +66,27 @@ export default class Properties extends Component {
     }
   }
 
-  _renderRow(rowData) {
+  _renderRow(rowData, sectionId) {
     let { title } = rowData;
-    const { subtitle } = rowData;
+    const { subtitle, time } = rowData;
 
     title = title.toUpperCase();
 
-    const leftAccessory = (
-      <Dot color={colors.get('yellow')} diameter={45} />
-    );
+    let icon;
+    let color;
+    switch (sectionId) {
+    case 'Prospectives':
+      icon = <Image source={require('../../assets/images/icon-eye.png')} />;
+      color = colors.get('yellow');
+      break;
+
+    default:
+      icon = <Image source={require('../../assets/images/icon-pin.png')} />;
+      color = colors.get('green');
+      break;
+    }
+
+    const leftAccessory = <Dot color={color} diameter={45}>{icon}</Dot>;
 
     return (
       <ListItem
@@ -84,6 +99,10 @@ export default class Properties extends Component {
         <ListItem.Subtitle>
           {subtitle}
         </ListItem.Subtitle>
+
+        <ListItem.Detail>
+          {time}
+        </ListItem.Detail>
       </ListItem>
     );
   }
@@ -96,7 +115,11 @@ export default class Properties extends Component {
     });
   }
 
-  static NavigationBar = <NavigationBar title="Properties" />;
+  static NavigationBar = (
+    <NavigationBar
+      customPrev={<NavigationBar.Prev />}
+      title="Properties" />
+  );
 }
 
 const styles = StyleSheet.create({

@@ -1,17 +1,19 @@
-import React, { Component, StyleSheet, Navigator, View } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, Navigator, View } from 'react-native';
 import { colors } from '../../styles';
-import Teams from './Teams';
 
 export default class MainNavigator extends Component {
+  static propTypes = {
+    initialRoute: PropTypes.object.isRequired,
+  }
+
   render() {
+    const { initialRoute } = this.props;
+
     return (
       <Navigator
         configureScene={this.configureScene}
         renderScene={this._renderScene}
-        initialRoute={{
-          component: Teams,
-          navigationBar: Teams.NavigationBar,
-        }}
+        initialRoute={initialRoute}
         />
     );
   }
