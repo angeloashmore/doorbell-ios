@@ -30,7 +30,7 @@ export default class Teams extends Component {
   _renderRow(rowData) {
     return (
       <ListItem
-        accessory="disclosure"
+        rightAccessory="disclosure"
         onPress={this._handlePress.bind(this)}>
         <Tag
           color={colors.get('green')}

@@ -1,7 +1,7 @@
 import React, { PropTypes, StyleSheet, View, Text } from 'react-native';
 import NavBar from 'react-native-navbar';
 import { colors, fonts } from '../../styles';
-import Prev from './Prev';
+import Button from './Button';
 
 export default class NavigationBar extends NavBar {
   static propTypes = {
@@ -24,9 +24,11 @@ export default class NavigationBar extends NavBar {
   }
 
   static STATUS_BAR_HEIGHT = 15;
-  static NAVIGATION_BAR_HEIGHT = 65;
-  static TOTAL_HEIGHT = 80;
-  static Prev = Prev;
+  static NAVIGATION_BAR_HEIGHT = 49;
+  static BOTTOM_OFFSET = 14;
+  static TOTAL_HEIGHT = 64;
+
+  static Button = Button;
 
   _renderCustomTitle() {
     let { title } = this.state;
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
 
   title: {
     alignItems: 'center',
-    bottom: 20,
+    bottom: NavigationBar.BOTTOM_OFFSET,
     left: 0,
     position: 'absolute',
     right: 0,
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: colors.get('white'),
     fontFamily: fonts.get('base'),
-    fontSize: 20,
+    fontSize: 18,
     letterSpacing: 1,
   },
 });

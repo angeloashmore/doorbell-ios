@@ -1,4 +1,5 @@
 import React, { Component, PropTypes, StyleSheet, Navigator, View } from 'react-native';
+import sceneConfig from '../../lib/sceneConfig';
 import { colors } from '../../styles';
 
 export default class MainNavigator extends Component {
@@ -12,14 +13,15 @@ export default class MainNavigator extends Component {
     return (
       <Navigator
         configureScene={this.configureScene}
-        renderScene={this._renderScene}
         initialRoute={initialRoute}
+        renderScene={this._renderScene}
+        sceneStyle={styles.scene}
         />
     );
   }
 
   _configureScene() {
-    return Navigator.SceneConfigs.PushFromRight;
+    return sceneConfig.FlatFloatFromRight;
   }
 
   _renderScene(route, navigator) {
@@ -34,7 +36,7 @@ export default class MainNavigator extends Component {
     }
 
     return (
-      <View style={styles.scene}>
+      <View style={styles.sceneContainer}>
         {navBar}
         <PassedComponent navigator={navigator} route={route} />
       </View>
@@ -44,6 +46,14 @@ export default class MainNavigator extends Component {
 
 const styles = StyleSheet.create({
   scene: {
+    overflow: 'visible',
+    shadowColor: colors.get('black'),
+    shadowRadius: 5,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 0},
+  },
+
+  sceneContainer: {
     backgroundColor: colors.get('background'),
     flex: 1,
   },

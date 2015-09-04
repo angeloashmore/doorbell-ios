@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     color: colors.get('alert'),
     fontFamily: fonts.get('base'),
     fontSize: 16,
-    marginLeft: 5,
+    marginLeft: 6,
   },
 });

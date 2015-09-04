@@ -1,9 +1,9 @@
 import React, { Component, PropTypes, StyleSheet, ListView, Image } from 'react-native';
 import { colors } from '../../styles';
 import { AlertIndicator, Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
-import Chats from './Chats';
+import Teams from './Teams';
 
-export default class Properties extends Component {
+export default class Chats extends Component {
   static propTypes = {
     navigator: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
@@ -32,14 +32,14 @@ export default class Properties extends Component {
     });
 
     dataSource = dataSource.cloneWithRowsAndSections({
-      'Prospectives': {
+      'Active': {
         0: {
           title: 'Prospectives',
           subtitle: '1 new message from Jasmine',
           time: '12:04 PM',
         },
       },
-      'Properties': {
+      'Archived': {
         0: {
           title: '680 Ala Moana Blvd.',
           subtitle: '2 new messages from Aaron and 1 other',
@@ -75,14 +75,9 @@ export default class Properties extends Component {
     let icon;
     let color;
     switch (sectionId) {
-    case 'Prospectives':
-      icon = <Image source={require('../../assets/images/icon-eye.png')} />;
-      color = colors.get('yellow');
-      break;
-
     default:
-      icon = <Image source={require('../../assets/images/icon-pin.png')} />;
-      color = colors.get('green');
+      icon = <Image source={require('../../assets/images/icon-person.png')} />;
+      color = colors.get('blue');
       break;
     }
 
@@ -110,15 +105,16 @@ export default class Properties extends Component {
   _handlePress() {
     const { navigator } = this.props;
     navigator.push({
-      component: Chats,
-      navigationBar: Chats.NavigationBar,
+      component: Teams,
+      navigationBar: Teams.NavigationBar,
     });
   }
 
   static NavigationBar = (
     <NavigationBar
-      customPrev={<NavigationBar.Button icon={require('../../assets/images/navbar-teams-icon.png')}/>}
-      title="Properties" />
+      customPrev={<NavigationBar.Button icon={require('../../assets/images/navbar-prev-icon.png')} />}
+      customNext={<NavigationBar.Button icon={require('../../assets/images/navbar-plus-icon.png')} iconPosition="after" position="right" />}
+      title="Chats" />
   );
 }
 
