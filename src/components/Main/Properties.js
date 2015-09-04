@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, StyleSheet, ListView, Image } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, ListView, View, Image } from 'react-native';
 import { colors } from '../../styles';
 import { AlertIndicator, Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
 import Chats from './Chats';
@@ -34,21 +34,24 @@ export default class Properties extends Component {
     dataSource = dataSource.cloneWithRowsAndSections({
       'Prospectives': {
         0: {
-          title: 'Prospectives',
-          subtitle: '1 new message from Jasmine',
-          time: '12:04 PM',
+          name: 'Prospectives',
+          active_chats_qty: 3,
+          new_messages_qty: 1,
+          last_message_timestamp: '12:04 PM',
         },
       },
       'Properties': {
         0: {
-          title: '680 Ala Moana Blvd.',
-          subtitle: '2 new messages from Aaron and 1 other',
-          time: '9:32 AM',
+          name: '680 Ala Moana Blvd',
+          active_chats_qty: 3,
+          new_messages_qty: 2,
+          last_message_timestamp: '9:32 AM',
         },
         1: {
-          title: '3439 Ala Hapuu St.',
-          subtitle: '3 active chats',
-          time: '6:41 AM',
+          name: '3439 Ala Hapuu St.',
+          active_chats_qty: 3,
+          new_messages_qty: 0,
+          last_message_timestamp: '6:41 AM',
         },
       },
     });
@@ -67,59 +70,85 @@ export default class Properties extends Component {
   }
 
   _renderRow(rowData, sectionId) {
-    let { title } = rowData;
-    const { subtitle, time } = rowData;
-
-    title = title.toUpperCase();
-
     let icon;
-    let color;
+    let iconColor;
     switch (sectionId) {
     case 'Prospectives':
       icon = <Image source={require('../../assets/images/icon-eye.png')} />;
-      color = colors.get('yellow');
+      iconColor = colors.get('yellow');
       break;
 
     default:
       icon = <Image source={require('../../assets/images/icon-pin.png')} />;
-      color = colors.get('green');
+      iconColor = colors.get('green');
       break;
     }
 
-    const leftAccessory = <Dot color={color} diameter={45}>{icon}</Dot>;
+    const leftAccessory = <Dot color={iconColor} diameter={45}>{icon}</Dot>;
+
+    const hasNewMessages = rowData.new_messages_qty > 0;
 
     return (
       <ListItem
         leftAccessory={leftAccessory}
-        onPress={this._handlePress.bind(this)}>
-        <ListItem.Title style={styles.title}>
-          {title}
-        </ListItem.Title>
+        onPress={() => this._handlePress(rowData)}>
+        <View style={styles.title}>
+          {hasNewMessages ? <AlertIndicator style={styles.alertIndicator} /> : null}
+          <ListItem.Title style={hasNewMessages && styles.titleAlert}>
+            {rowData.name.toUpperCase()}
+          </ListItem.Title>
+        </View>
 
         <ListItem.Subtitle>
-          {subtitle}
+          {hasNewMessages ? (
+            `${rowData.new_messages_qty} new messages`
+          ) : (
+            `${rowData.active_chats_qty} active chats`
+          )}
         </ListItem.Subtitle>
 
         <ListItem.Detail>
-          {time}
+          {rowData.last_message_timestamp}
         </ListItem.Detail>
       </ListItem>
     );
   }
 
-  _handlePress() {
+  _handlePress(rowData) {
     const { navigator } = this.props;
     navigator.push({
       component: Chats,
-      navigationBar: Chats.NavigationBar,
+      navigationBar: <Chats.NavigationBar title={rowData.name} />,
     });
   }
 
-  static NavigationBar = (
-    <NavigationBar
-      customPrev={<NavigationBar.Button icon={require('../../assets/images/navbar-teams-icon.png')}/>}
-      title="Properties" />
-  );
+  static NavigationBar = class _NavigationBar extends NavigationBar {
+    render() {
+      return (
+        <NavigationBar
+          title="Properties"
+          {...this.props}
+          customPrev={this._renderPrev()}
+          customNext={this._renderNext()} />
+      );
+    }
+
+    _renderPrev() {
+      const icon = require('../../assets/images/navbar-teams-icon.png');
+      return <NavigationBar.Button icon={icon} />;
+    }
+
+    _renderNext() {
+      const icon = require('../../assets/images/navbar-plus-icon.png');
+      return (
+        <NavigationBar.Button
+          icon={icon}
+          iconPosition="after"
+          onPress={() => null}
+          position="right" />
+      );
+    }
+  }
 }
 
 const styles = StyleSheet.create({
@@ -127,15 +156,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  tag: {
-    marginBottom: 8,
-  },
-
   title: {
+    alignItems: 'center',
+    flexDirection: 'row',
     marginBottom: 3,
   },
 
+  titleAlert: {
+    color: colors.get('alert'),
+  },
+
   alertIndicator: {
-    marginBottom: 5,
+    marginRight: 6,
   },
 });

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, StyleSheet, ListView, Image } from 'react-native';
 import { colors } from '../../styles';
-import { AlertIndicator, Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
+import { Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
 import Teams from './Teams';
 
 export default class Chats extends Component {
@@ -110,12 +110,33 @@ export default class Chats extends Component {
     });
   }
 
-  static NavigationBar = (
-    <NavigationBar
-      customPrev={<NavigationBar.Button icon={require('../../assets/images/navbar-prev-icon.png')} />}
-      customNext={<NavigationBar.Button icon={require('../../assets/images/navbar-plus-icon.png')} iconPosition="after" position="right" />}
-      title="Chats" />
-  );
+  static NavigationBar = class _NavigationBar extends NavigationBar {
+    render() {
+      return (
+        <NavigationBar
+          title="Chats"
+          {...this.props}
+          customPrev={this._renderPrev()}
+          customNext={this._renderNext()} />
+      );
+    }
+
+    _renderPrev() {
+      const icon = require('../../assets/images/navbar-prev-icon.png');
+      return <NavigationBar.Button icon={icon} />;
+    }
+
+    _renderNext() {
+      const icon = require('../../assets/images/navbar-plus-icon.png');
+      return (
+        <NavigationBar.Button
+          icon={icon}
+          iconPosition="after"
+          onPress={() => null}
+          position="right" />
+      );
+    }
+  }
 }
 
 const styles = StyleSheet.create({

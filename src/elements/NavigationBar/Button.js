@@ -14,7 +14,6 @@ export default class Button extends Component {
   }
 
   static defaultProps = {
-    icon: 'prev',
     iconPosition: 'before',
     noIcon: false,
     onPress: navigator => navigator.pop(),
@@ -28,7 +27,7 @@ export default class Button extends Component {
       (!noIcon && <Image source={icon} />),
       <Text style={styles.text}>{this.props.children}</Text>,
     ];
-    if (iconPosition == 'after') content.reverse();
+    if (iconPosition === 'after') content.reverse();
 
     return (
       <TouchableOpacity onPress={() => onPress(navigator)}>
@@ -52,8 +51,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 49,
     position: 'absolute',
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 13,
+    paddingRight: 13,
   },
 
   left: {
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
   text: {
     color: colors.get('white'),
     fontFamily: fonts.get('base'),
-    fontSize: 20,
+    fontSize: 18,
     letterSpacing: 1,
     paddingLeft: 5,
     paddingRight: 5,

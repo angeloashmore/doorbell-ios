@@ -17,10 +17,10 @@ export default class Entry extends Component {
 
     const initialRoute = {
       component: Teams,
-      navigationBar: Teams.NavigationBar,
+      navigationBar: <Teams.NavigationBar />,
     };
 
-    // return isSignedIn ? <MainNavigator initialRoute={initialRoute} /> : <SignInContainer />;
-    return <MainNavigator initialRoute={initialRoute} />;
+    return isSignedIn ? <MainNavigator initialRoute={initialRoute} /> : <SignInContainer />;
+    // return <MainNavigator initialRoute={initialRoute} />;
   }
 }

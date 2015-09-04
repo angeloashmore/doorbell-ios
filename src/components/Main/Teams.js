@@ -9,45 +9,69 @@ export default class Teams extends Component {
     route: PropTypes.object.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-    };
-  }
-
   render() {
     return (
       <ListView
         automaticallyAdjustContentInsets={false}
-        dataSource={this.state.dataSource.cloneWithRows(['COLDWELL BANKER PACIFIC PROPERTIES — HONOLULU', 'DOORBELL'])}
+        dataSource={this.state.dataSource}
         renderRow={this._renderRow.bind(this)}
         style={styles.list}
         />
     );
   }
 
+  state = {
+    dataSource: this._setupDataSource(),
+  }
+
+  _setupDataSource() {
+    let dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    });
+
+    dataSource = dataSource.cloneWithRows([
+      {
+        name: 'Coldwell Banker Pacific Properties – Honolulu',
+        properties_qty: 8,
+        new_messages_qty: 3,
+        title: 'Real Estate Agent',
+      },
+      {
+        name: 'Doorbell',
+        properties_qty: 3,
+        new_messages_qty: 0,
+        title: 'Owner',
+      },
+    ]);
+
+    return dataSource;
+  }
+
   _renderRow(rowData) {
+    const hasNewMessages = rowData.new_messages_qty > 0;
+
     return (
       <ListItem
         rightAccessory="disclosure"
-        onPress={this._handlePress.bind(this)}>
+        onPress={() => this._handlePress(rowData)}>
+        <ListItem.Title style={styles.title}>
+          {rowData.name.toUpperCase()}
+        </ListItem.Title>
+
         <Tag
           color={colors.get('green')}
           style={styles.tag}>
-          REAL ESTATE AGENT
+          {rowData.title.toUpperCase()}
         </Tag>
 
-        <ListItem.Title style={styles.title}>
-          {rowData}
-        </ListItem.Title>
-
-        <AlertIndicator style={styles.alertIndicator}>
-          3 new messages
-        </AlertIndicator>
+        {hasNewMessages ? (
+          <AlertIndicator style={styles.alertIndicator}>
+            {rowData.new_messages_qty} new messages
+          </AlertIndicator>
+        ) : null}
 
         <ListItem.Subtitle>
-          8 properties
+          {rowData.properties_qty} properties
         </ListItem.Subtitle>
       </ListItem>
     );
@@ -57,15 +81,20 @@ export default class Teams extends Component {
     const { navigator } = this.props;
     navigator.push({
       component: Properties,
-      navigationBar: Properties.NavigationBar,
+      navigationBar: <Properties.NavigationBar />,
     });
   }
 
-  static NavigationBar = (
-    <NavigationBar
-      hidePrev={true}
-      title="Teams" />
-  );
+  static NavigationBar = class _NavigationBar extends NavigationBar {
+    render() {
+      return (
+        <NavigationBar
+          hidePrev={true}
+          title="Teams"
+          {...this.props} />
+      );
+    }
+  }
 }
 
 const styles = StyleSheet.create({
@@ -78,10 +107,10 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    marginBottom: 5,
+    marginBottom: 8,
   },
 
   alertIndicator: {
-    marginBottom: 5,
+    marginBottom: 8,
   },
 });

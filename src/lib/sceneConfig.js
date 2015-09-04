@@ -1,10 +1,11 @@
-import { Navigator } from 'react-native'
+import { Navigator } from 'react-native';
 import Dimensions from 'Dimensions';
 import PixelRatio from 'PixelRatio';
 import buildStyleInterpolator from 'buildStyleInterpolator';
 
 // Scene Config
 const FlatFloatFromRight = Object.assign({}, Navigator.SceneConfigs.FloatFromRight);
+
 const FlatFadeToTheLeft = {
   transformTranslate: {
     from: {x: 0, y: 0, z: 0},
@@ -34,8 +35,9 @@ const FlatFadeToTheLeft = {
     round: PixelRatio.get(),
   },
 };
+
 FlatFloatFromRight.animationInterpolators.out = buildStyleInterpolator(FlatFadeToTheLeft);
 
 export default {
-  FlatFloatFromRight
-}
+  FlatFloatFromRight,
+};

@@ -25,7 +25,7 @@ export default class NavigationBar extends NavBar {
 
   static STATUS_BAR_HEIGHT = 15;
   static NAVIGATION_BAR_HEIGHT = 49;
-  static BOTTOM_OFFSET = 14;
+  static BOTTOM_OFFSET = 9;
   static TOTAL_HEIGHT = 64;
 
   static Button = Button;
