@@ -1,9 +1,13 @@
-import React from 'react-native';
+import React, { PropTypes } from 'react-native';
 import customSceneConfigs from '../../../lib/customSceneConfigs';
 import { NavigationBar } from '../../../elements';
 import NewProperty from '../NewProperty';
 
 export default class PropertiesNavigationBar extends NavigationBar {
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+  }
+
   render() {
     return (
       <NavigationBar
@@ -36,6 +40,6 @@ export default class PropertiesNavigationBar extends NavigationBar {
       component: NewProperty,
       navigationBar: <NewProperty.NavigationBar />,
       sceneConfig: customSceneConfigs.FlatFloatFromBottom,
-    })
+    });
   }
 }

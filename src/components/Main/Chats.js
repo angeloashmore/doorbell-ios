@@ -1,10 +1,8 @@
-import React, { Component, PropTypes, StyleSheet, ActionSheetIOS, ListView, Image } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, ListView, Image } from 'react-native';
 import { colors } from '../../styles';
-import customSceneConfigs from '../../lib/customSceneConfigs';
-import { Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
+import { Dot, ListItem, ListSectionHeader } from '../../elements';
 import Teams from './Teams';
-import NewChat from './NewChat';
-import { ChatsNavigationBar } from './NavigationBars';
+import { ChatsNavigationBar as NavigationBar } from './NavigationBars';
 
 export default class Chats extends Component {
   static propTypes = {
@@ -104,15 +102,16 @@ export default class Chats extends Component {
     );
   }
 
-  _handlePress() {
+  _handlePress(rowData) {
     const { navigator } = this.props;
     navigator.push({
       component: Teams,
       navigationBar: Teams.NavigationBar,
+      chat: rowData,
     });
   }
 
-  static NavigationBar = ChatsNavigationBar;
+  static NavigationBar = NavigationBar;
 }
 
 const styles = StyleSheet.create({

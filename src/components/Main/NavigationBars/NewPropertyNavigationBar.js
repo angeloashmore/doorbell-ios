@@ -1,7 +1,7 @@
 import React from 'react-native';
 import { NavigationBar } from '../../../elements';
 
-export default class PropertiesNavigationBar extends NavigationBar {
+export default class NewPropertyNavigationBar extends NavigationBar {
   render() {
     return (
       <NavigationBar

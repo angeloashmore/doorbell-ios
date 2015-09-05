@@ -27,7 +27,8 @@ export default class NavigationBar extends NavBar {
   static Button = Button;
 
   _renderCustomTitle() {
-    let { title, subtitle } = this.props;
+    let { title } = this.props;
+    const { subtitle } = this.props;
     title = title.toUpperCase();
 
     return (

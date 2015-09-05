@@ -55,7 +55,7 @@ const FlatToTheBack = {
     min: 0,
     max: 1,
     type: 'linear',
-    extrapolate: true
+    extrapolate: true,
   },
   opacity: {
     from: 1,
@@ -72,7 +72,7 @@ const FlatToTheBack = {
     min: 0,
     max: 1,
     type: 'linear',
-    extrapolate: true
+    extrapolate: true,
   },
   scaleY: {
     from: 1,
@@ -80,7 +80,7 @@ const FlatToTheBack = {
     min: 0,
     max: 1,
     type: 'linear',
-    extrapolate: true
+    extrapolate: true,
   },
 };
 FlatFloatFromBottom.gestures = null;

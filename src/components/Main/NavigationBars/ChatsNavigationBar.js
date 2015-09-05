@@ -5,6 +5,7 @@ import NewChat from '../NewChat';
 
 export default class ChatsNavigationBar extends NavigationBar {
   static propTypes = {
+    navigator: PropTypes.object.isRequired,
     property: PropTypes.object.isRequired,
   }
 
@@ -38,7 +39,7 @@ export default class ChatsNavigationBar extends NavigationBar {
     const buttons = [
       'Create New Chat…',
       'Archive Property',
-      'Cancel'
+      'Cancel',
     ];
 
     ActionSheetIOS.showActionSheetWithOptions({
@@ -58,6 +59,7 @@ export default class ChatsNavigationBar extends NavigationBar {
         navigationBar: <NewChat.NavigationBar subtitle="Test" />,
         sceneConfig: customSceneConfigs.FlatFloatFromBottom,
       });
+      break;
 
     default: break;
     }

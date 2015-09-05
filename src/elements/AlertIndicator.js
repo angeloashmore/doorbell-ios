@@ -4,7 +4,7 @@ import Dot from './Dot';
 
 export default class AlertIndicator extends Component {
   static propTypes = {
-    children: PropTypes.string,
+    children: PropTypes.node,
     style: PropTypes.number,
   }
 

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes, StyleSheet, ListView } from 'react-native';
 import { colors } from '../../styles';
-import { AlertIndicator, ListItem, NavigationBar, Tag } from '../../elements';
+import { AlertIndicator, ListItem, Tag } from '../../elements';
+import { TeamsNavigationBar as NavigationBar } from './NavigationBars';
 import Properties from './Properties';
-import { TeamsNavigationBar } from './NavigationBars';
 
 export default class Teams extends Component {
   static propTypes = {
@@ -87,7 +87,7 @@ export default class Teams extends Component {
     });
   }
 
-  static NavigationBar = TeamsNavigationBar;
+  static NavigationBar = NavigationBar;
 }
 
 const styles = StyleSheet.create({

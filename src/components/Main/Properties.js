@@ -1,9 +1,8 @@
-import React, { Component, PropTypes, StyleSheet, Navigator, ListView, View, Image } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, ListView, View, Image } from 'react-native';
 import { colors } from '../../styles';
-import { AlertIndicator, Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
+import { AlertIndicator, Dot, ListItem, ListSectionHeader } from '../../elements';
 import Chats from './Chats';
-import NewProperty from './NewProperty';
-import { PropertiesNavigationBar } from './NavigationBars';
+import { PropertiesNavigationBar as NavigationBar } from './NavigationBars';
 
 export default class Properties extends Component {
   static propTypes = {
@@ -125,7 +124,7 @@ export default class Properties extends Component {
     });
   }
 
-  static NavigationBar = PropertiesNavigationBar;
+  static NavigationBar = NavigationBar;
 }
 
 const styles = StyleSheet.create({

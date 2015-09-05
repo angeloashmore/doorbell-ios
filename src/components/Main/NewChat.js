@@ -1,8 +1,7 @@
 import React, { Component, PropTypes, StyleSheet, ListView, View, Image } from 'react-native';
 import { colors } from '../../styles';
-import { Dot, ListItem, NavigationBar, Tag } from '../../elements';
-import Properties from './Properties';
-import { NewChatNavigationBar } from './NavigationBars';
+import { Dot, ListItem } from '../../elements';
+import NavigationBar from './NavigationBars/NewChatNavigationBar';
 
 export default class NewChat extends Component {
   static propTypes = {
@@ -86,11 +85,11 @@ export default class NewChat extends Component {
     navigator.pop();
   }
 
-  static NavigationBar = NewChatNavigationBar;
+  static NavigationBar = NavigationBar;
 }
 
 const styles = StyleSheet.create({
-  container :{
+  container: {
     flex: 1,
   },
 

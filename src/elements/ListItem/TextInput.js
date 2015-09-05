@@ -3,7 +3,9 @@ import { colors, fonts } from '../../styles';
 
 export default class Input extends Component {
   static propTypes = {
+    clearButtonMode: PropTypes.string,
     children: PropTypes.node,
+    label: PropTypes.string,
     style: PropTypes.number,
   }
 
