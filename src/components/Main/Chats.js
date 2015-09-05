@@ -1,7 +1,10 @@
-import React, { Component, PropTypes, StyleSheet, ListView, Image } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, ActionSheetIOS, ListView, Image } from 'react-native';
 import { colors } from '../../styles';
+import customSceneConfigs from '../../lib/customSceneConfigs';
 import { Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
 import Teams from './Teams';
+import NewChat from './NewChat';
+import { ChatsNavigationBar } from './NavigationBars';
 
 export default class Chats extends Component {
   static propTypes = {
@@ -72,11 +75,10 @@ export default class Chats extends Component {
 
     title = title.toUpperCase();
 
-    let icon;
+    const icon = <Image source={require('../../assets/images/icon-person.png')} />;
     let color;
     switch (sectionId) {
     default:
-      icon = <Image source={require('../../assets/images/icon-person.png')} />;
       color = colors.get('blue');
       break;
     }
@@ -110,33 +112,7 @@ export default class Chats extends Component {
     });
   }
 
-  static NavigationBar = class _NavigationBar extends NavigationBar {
-    render() {
-      return (
-        <NavigationBar
-          title="Chats"
-          {...this.props}
-          customPrev={this._renderPrev()}
-          customNext={this._renderNext()} />
-      );
-    }
-
-    _renderPrev() {
-      const icon = require('../../assets/images/navbar-prev-icon.png');
-      return <NavigationBar.Button icon={icon} />;
-    }
-
-    _renderNext() {
-      const icon = require('../../assets/images/navbar-plus-icon.png');
-      return (
-        <NavigationBar.Button
-          icon={icon}
-          iconPosition="after"
-          onPress={() => null}
-          position="right" />
-      );
-    }
-  }
+  static NavigationBar = ChatsNavigationBar;
 }
 
 const styles = StyleSheet.create({

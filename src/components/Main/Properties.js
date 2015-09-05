@@ -1,7 +1,9 @@
-import React, { Component, PropTypes, StyleSheet, ListView, View, Image } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, Navigator, ListView, View, Image } from 'react-native';
 import { colors } from '../../styles';
 import { AlertIndicator, Dot, ListItem, ListSectionHeader, NavigationBar } from '../../elements';
 import Chats from './Chats';
+import NewProperty from './NewProperty';
+import { PropertiesNavigationBar } from './NavigationBars';
 
 export default class Properties extends Component {
   static propTypes = {
@@ -119,36 +121,11 @@ export default class Properties extends Component {
     navigator.push({
       component: Chats,
       navigationBar: <Chats.NavigationBar title={rowData.name} />,
+      property: rowData,
     });
   }
 
-  static NavigationBar = class _NavigationBar extends NavigationBar {
-    render() {
-      return (
-        <NavigationBar
-          title="Properties"
-          {...this.props}
-          customPrev={this._renderPrev()}
-          customNext={this._renderNext()} />
-      );
-    }
-
-    _renderPrev() {
-      const icon = require('../../assets/images/navbar-teams-icon.png');
-      return <NavigationBar.Button icon={icon} />;
-    }
-
-    _renderNext() {
-      const icon = require('../../assets/images/navbar-plus-icon.png');
-      return (
-        <NavigationBar.Button
-          icon={icon}
-          iconPosition="after"
-          onPress={() => null}
-          position="right" />
-      );
-    }
-  }
+  static NavigationBar = PropertiesNavigationBar;
 }
 
 const styles = StyleSheet.create({

@@ -2,6 +2,7 @@ import React, { Component, PropTypes, StyleSheet, TouchableHighlight, View, Imag
 import { colors } from '../../styles';
 import Detail from './Detail';
 import Subtitle from './Subtitle';
+import TextInput from './TextInput';
 import Title from './Title';
 
 export default class ListItem extends Component {
@@ -9,18 +10,24 @@ export default class ListItem extends Component {
     leftAccessory: PropTypes.node,
     rightAccessory: PropTypes.oneOf(['disclosure']),
     children: PropTypes.node,
+    noPadding: PropTypes.bool,
     onPress: PropTypes.func,
     style: PropTypes.object,
   }
 
+  static defaultProps = {
+    noPadding: false,
+  }
+
   render() {
-    const { onPress } = this.props;
+    const { noPadding, onPress } = this.props;
 
     return (
       <TouchableHighlight onPress={onPress}>
         <View
           style={[
-            styles.row,
+            styles.listItem,
+            !noPadding && styles.padding,
             this.props.style,
           ]}>
           {this._renderLeftAccessory()}
@@ -35,6 +42,7 @@ export default class ListItem extends Component {
 
   static Detail = Detail;
   static Subtitle = Subtitle;
+  static TextInput = TextInput;
   static Title = Title;
 
   _renderLeftAccessory() {
@@ -70,7 +78,7 @@ export default class ListItem extends Component {
 }
 
 const styles = StyleSheet.create({
-  row: {
+  listItem: {
     alignItems: 'center',
     backgroundColor: colors.get('white'),
     flexDirection: 'row',
@@ -78,8 +86,11 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 0 },
     shadowOpacity: 0.3,
     shadowRadius: 0.5,
-    padding: 15,
     position: 'relative',
+  },
+
+  padding: {
+    padding: 15,
   },
 
   body: {

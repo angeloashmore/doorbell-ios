@@ -1,5 +1,5 @@
 import React, { Component, PropTypes, StyleSheet, Navigator, View } from 'react-native';
-import sceneConfig from '../../lib/sceneConfig';
+import customSceneConfigs from '../../lib/customSceneConfigs';
 import { colors } from '../../styles';
 
 export default class MainNavigator extends Component {
@@ -12,7 +12,7 @@ export default class MainNavigator extends Component {
 
     return (
       <Navigator
-        configureScene={this.configureScene}
+        configureScene={this._configureScene}
         initialRoute={initialRoute}
         renderScene={this._renderScene}
         sceneStyle={styles.scene}
@@ -20,8 +20,9 @@ export default class MainNavigator extends Component {
     );
   }
 
-  _configureScene() {
-    return sceneConfig.FlatFloatFromRight;
+  _configureScene(route) {
+    const { sceneConfig } = route;
+    return sceneConfig || customSceneConfigs.FlatFloatFromRight;
   }
 
   _renderScene(route, navigator) {

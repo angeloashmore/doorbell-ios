@@ -2,6 +2,7 @@ import React, { Component, PropTypes, StyleSheet, ListView } from 'react-native'
 import { colors } from '../../styles';
 import { AlertIndicator, ListItem, NavigationBar, Tag } from '../../elements';
 import Properties from './Properties';
+import { TeamsNavigationBar } from './NavigationBars';
 
 export default class Teams extends Component {
   static propTypes = {
@@ -77,24 +78,16 @@ export default class Teams extends Component {
     );
   }
 
-  _handlePress() {
+  _handlePress(rowData) {
     const { navigator } = this.props;
     navigator.push({
       component: Properties,
       navigationBar: <Properties.NavigationBar />,
+      team: rowData,
     });
   }
 
-  static NavigationBar = class _NavigationBar extends NavigationBar {
-    render() {
-      return (
-        <NavigationBar
-          hidePrev={true}
-          title="Teams"
-          {...this.props} />
-      );
-    }
-  }
+  static NavigationBar = TeamsNavigationBar;
 }
 
 const styles = StyleSheet.create({

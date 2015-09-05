@@ -24,7 +24,7 @@ export default class Button extends Component {
     const { icon, iconPosition, navigator, noIcon, onPress, position } = this.props;
 
     const content = [
-      (!noIcon && <Image source={icon} />),
+      (!noIcon && <Image source={icon} style={styles.icon} />),
       <Text style={styles.text}>{this.props.children}</Text>,
     ];
     if (iconPosition === 'after') content.reverse();
@@ -49,10 +49,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     bottom: 0,
     flexDirection: 'row',
-    height: 49,
+    height: 65,
     position: 'absolute',
-    paddingLeft: 13,
-    paddingRight: 13,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
 
   left: {
@@ -63,12 +63,15 @@ const styles = StyleSheet.create({
     right: 0,
   },
 
+  icon: {
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+
   text: {
     color: colors.get('white'),
     fontFamily: fonts.get('base'),
     fontSize: 18,
     letterSpacing: 1,
-    paddingLeft: 5,
-    paddingRight: 5,
   },
 });

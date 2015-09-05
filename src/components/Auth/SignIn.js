@@ -51,7 +51,6 @@ export default class SignIn extends Component {
               onChangeText={value => this._onInputChange('email', value)}
               onSubmitEditing={() => this.refs.password.focus()}
               placeholder="name@example.com"
-              placeholderTextColor={colors.get('textSuperUnpronounced')}
               ref="email"
               returnKeyType="next"
               />
@@ -66,7 +65,6 @@ export default class SignIn extends Component {
               onChangeText={value => this._onInputChange('password', value)}
               onSubmitEditing={this._signIn.bind(this)}
               placeholder="Required"
-              placeholderTextColor={colors.get('textSuperUnpronounced')}
               ref="password"
               returnKeyType="go"
               secureTextEntry={true}

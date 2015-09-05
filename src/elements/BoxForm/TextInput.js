@@ -10,6 +10,7 @@ export default class BoxFormTextInput extends TextInput {
   render() {
     return (
       <TextInput
+        placeholderTextColor={colors.get('textSuperUnpronounced')}
         style={[
           styles.textInput,
           this.props.clearButtonMode && this.props.clearButtonMode !== 'never' && styles.textInputWithClearButton,

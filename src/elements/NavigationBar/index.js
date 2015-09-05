@@ -6,6 +6,7 @@ import Button from './Button';
 export default class NavigationBar extends NavBar {
   static propTypes = {
     title: PropTypes.string,
+    subtitle: PropTypes.string,
   }
 
   render() {
@@ -19,30 +20,22 @@ export default class NavigationBar extends NavBar {
     );
   }
 
-  state = {
-    title: this.props.title,
-  }
-
   static STATUS_BAR_HEIGHT = 15;
-  static NAVIGATION_BAR_HEIGHT = 49;
-  static BOTTOM_OFFSET = 9;
-  static TOTAL_HEIGHT = 64;
+  static NAVIGATION_BAR_HEIGHT = 65;
+  static TOTAL_HEIGHT = 80;
 
   static Button = Button;
 
   _renderCustomTitle() {
-    let { title } = this.state;
+    let { title, subtitle } = this.props;
     title = title.toUpperCase();
 
     return (
       <View style={styles.title}>
+        {!!subtitle && <Text style={styles.subtitleText}>{subtitle}</Text>}
         <Text style={styles.titleText}>{title}</Text>
       </View>
     );
-  }
-
-  setTitle(title) {
-    this.state({ title });
   }
 }
 
@@ -61,7 +54,9 @@ const styles = StyleSheet.create({
 
   title: {
     alignItems: 'center',
-    bottom: NavigationBar.BOTTOM_OFFSET,
+    justifyContent: 'center',
+    bottom: -5,
+    height: NavigationBar.NAVIGATION_BAR_HEIGHT,
     left: 0,
     position: 'absolute',
     right: 0,
@@ -70,7 +65,15 @@ const styles = StyleSheet.create({
   titleText: {
     color: colors.get('white'),
     fontFamily: fonts.get('base'),
-    fontSize: 18,
+    fontSize: 20,
     letterSpacing: 1,
+  },
+
+  subtitleText: {
+    color: colors.get('white'),
+    fontFamily: fonts.get('base'),
+    fontSize: 12,
+    letterSpacing: 1,
+    marginBottom: 1,
   },
 });
