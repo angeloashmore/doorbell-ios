@@ -1,5 +1,5 @@
 import React, { Component, PropTypes, StyleSheet, View, Text, TextInput } from 'react-native';
-import { colors, fonts } from '../../styles';
+import { colors, fonts } from '../styles';
 
 export default class Input extends Component {
   static propTypes = {

@@ -1,13 +1,13 @@
 import { connect } from 'react-redux/native';
 import { bindActionCreators } from 'redux';
 
-import { changePassword } from '../actions/AuthActions';
-import { ChangePassword } from '../components/Auth';
+import { changePassword } from '../../actions/AuthActions';
+import { ChangePassword } from '../../components/Auth';
 
 function mapStateToProps(state) {
   return {
     error: state.auth.changePasswordError,
-    loading: !!state.auth.changingPassword,
+    loading: state.auth.changingPassword,
     success: state.auth.changePasswordSuccess,
   };
 }

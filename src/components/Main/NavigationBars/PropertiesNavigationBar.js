@@ -1,11 +1,12 @@
-import React, { PropTypes } from 'react-native';
+import React, { PropTypes, ActionSheetIOS } from 'react-native';
 import customSceneConfigs from '../../../lib/customSceneConfigs';
 import { NavigationBar } from '../../../elements';
-import NewProperty from '../NewProperty';
+import NewChat from '../NewChat';
 
 export default class PropertiesNavigationBar extends NavigationBar {
   static propTypes = {
     navigator: PropTypes.object.isRequired,
+    property: PropTypes.object.isRequired,
   }
 
   render() {
@@ -29,16 +30,17 @@ export default class PropertiesNavigationBar extends NavigationBar {
       <NavigationBar.Button
         icon={icon}
         iconPosition="after"
-        onPress={this._handleAddPress.bind(this)}
+        onPress={this._handlePress.bind(this)}
         position="right" />
     );
   }
 
-  _handleAddPress() {
+  _handlePress() {
     const { navigator } = this.props;
+
     navigator.push({
-      component: NewProperty,
-      navigationBar: <NewProperty.NavigationBar />,
+      component: NewChat,
+      navigationBar: <NewChat.NavigationBar subtitle="Test" />,
       sceneConfig: customSceneConfigs.FlatFloatFromBottom,
     });
   }

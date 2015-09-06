@@ -1,51 +1,85 @@
-import React, { Component, PropTypes, StyleSheet, ListView } from 'react-native';
-import { colors } from '../../styles';
-import { AlertIndicator, ListItem, Tag } from '../../elements';
+import React, { Component, PropTypes, StyleSheet, View, ListView, Image, Text, ActivityIndicatorIOS } from 'react-native';
+import { colors, fonts } from '../../styles';
 import { TeamsNavigationBar as NavigationBar } from './NavigationBars';
+import { AlertIndicator, ListItem, NoObjects, Tag } from '../../elements';
 import Properties from './Properties';
 
 export default class Teams extends Component {
   static propTypes = {
+    error: PropTypes.object,
+    fetchTeamsForCurrentUser: PropTypes.func.isRequired,
+    jwt: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
+    teams: PropTypes.array.isRequired,
     navigator: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
   }
 
+  static defaultProps = {
+    loading: false,
+    teams: [],
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+    };
+  }
+
+  componentDidMount() {
+    const { fetchTeamsForCurrentUser, jwt } = this.props;
+    fetchTeamsForCurrentUser(jwt);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { teams } = nextProps;
+    const { dataSource } = this.state;
+    this.setState({ dataSource: dataSource.cloneWithRows(teams) });
+  }
+
   render() {
+    const { loading, teams } = this.props;
+
+    return (
+      <View style={styles.container}>
+        {loading ? this._renderLoading() : null}
+        {!loading && teams.length < 1 ? this._renderNoObjects() : null}
+        {!loading && teams.length > 0 ? this._renderListView() : null}
+      </View>
+    );
+  }
+
+  _renderLoading() {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicatorIOS size="large" />
+      </View>
+    );
+  }
+
+  _renderNoObjects() {
+    return (
+      <NoObjects
+        icon={require('../../assets/images/icon-person-large.png')}
+        title="No Teams">
+        Teams are managed on the Doorbell web app. Create a team or ask your manager to add you.
+      </NoObjects>
+    );
+  }
+
+  _renderListView() {
+    const { dataSource } = this.state;
+
     return (
       <ListView
         automaticallyAdjustContentInsets={false}
-        dataSource={this.state.dataSource}
+        dataSource={dataSource}
         renderRow={this._renderRow.bind(this)}
         style={styles.list}
         />
     );
-  }
-
-  state = {
-    dataSource: this._setupDataSource(),
-  }
-
-  _setupDataSource() {
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
-
-    dataSource = dataSource.cloneWithRows([
-      {
-        name: 'Coldwell Banker Pacific Properties – Honolulu',
-        properties_qty: 8,
-        new_messages_qty: 3,
-        title: 'Real Estate Agent',
-      },
-      {
-        name: 'Doorbell',
-        properties_qty: 3,
-        new_messages_qty: 0,
-        title: 'Owner',
-      },
-    ]);
-
-    return dataSource;
   }
 
   _renderRow(rowData) {
@@ -58,24 +92,34 @@ export default class Teams extends Component {
         <ListItem.Title style={styles.title}>
           {rowData.name.toUpperCase()}
         </ListItem.Title>
-
-        <Tag
-          color={colors.get('green')}
-          style={styles.tag}>
-          {rowData.title.toUpperCase()}
-        </Tag>
-
-        {hasNewMessages ? (
-          <AlertIndicator style={styles.alertIndicator}>
-            {rowData.new_messages_qty} new messages
-          </AlertIndicator>
-        ) : null}
-
-        <ListItem.Subtitle>
-          {rowData.properties_qty} properties
-        </ListItem.Subtitle>
       </ListItem>
     );
+
+    // return (
+    //   <ListItem
+    //     rightAccessory="disclosure"
+    //     onPress={() => this._handlePress(rowData)}>
+    //     <ListItem.Title style={styles.title}>
+    //       {rowData.name.toUpperCase()}
+    //     </ListItem.Title>
+    //
+    //     <Tag
+    //       color={colors.get('green')}
+    //       style={styles.tag}>
+    //       {rowData.title.toUpperCase()}
+    //     </Tag>
+    //
+    //     {hasNewMessages ? (
+    //       <AlertIndicator style={styles.alertIndicator}>
+    //         {rowData.new_messages_qty} new messages
+    //       </AlertIndicator>
+    //     ) : null}
+    //
+    //     <ListItem.Subtitle>
+    //       {rowData.properties_qty} properties
+    //     </ListItem.Subtitle>
+    //   </ListItem>
+    // );
   }
 
   _handlePress(rowData) {
@@ -91,6 +135,16 @@ export default class Teams extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+  loading: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  },
+
   list: {
     flex: 1,
   },

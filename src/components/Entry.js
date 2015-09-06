@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react-native';
-import { MainNavigator } from './Main';
-import { SignInContainer } from '../containers';
-import { Teams } from './Main';
+import { SignInContainer } from '../containers/Auth';
+import { TeamsContainer } from '../containers/Main';
+import { MainNavigator, Teams } from './Main';
 
 export default class Entry extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ export default class Entry extends Component {
     const { isSignedIn } = this.props;
 
     const initialRoute = {
-      component: Teams,
+      component: TeamsContainer,
       navigationBar: <Teams.NavigationBar />,
     };
 

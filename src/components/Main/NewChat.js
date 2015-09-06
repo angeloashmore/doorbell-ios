@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, StyleSheet, ListView, View, Image } from 'react-native';
 import { colors } from '../../styles';
-import { Dot, ListItem } from '../../elements';
+import { Dot, ListItem, TextInput } from '../../elements';
 import NavigationBar from './NavigationBars/NewChatNavigationBar';
 
 export default class NewChat extends Component {
@@ -12,12 +12,24 @@ export default class NewChat extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ListItem.TextInput
+        <TextInput
           autoCapitalize="words"
           autoCorrect={false}
           clearButtonMode="while-editing"
-          label="To"
-          placeholder="First Last" />
+          label="Team"
+          placeholder="Team Name" />
+        <TextInput
+          autoCapitalize="words"
+          autoCorrect={false}
+          clearButtonMode="while-editing"
+          label="Person"
+          placeholder="Name or Email" />
+        <TextInput
+          autoCapitalize="words"
+          autoCorrect={false}
+          clearButtonMode="while-editing"
+          label="Property"
+          placeholder="Optional" />
         <ListView
           automaticallyAdjustContentInsets={false}
           dataSource={this.state.dataSource}

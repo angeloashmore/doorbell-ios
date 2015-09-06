@@ -1,9 +1,9 @@
-import ChangePasswordContainer from './ChangePasswordContainer';
+import * as Auth from './Auth';
+import * as Main from './Main';
 import EntryContainer from './EntryContainer';
-import SignInContainer from './SignInContainer';
 
 export {
-  ChangePasswordContainer,
+  Auth,
+  Main,
   EntryContainer,
-  SignInContainer,
 };

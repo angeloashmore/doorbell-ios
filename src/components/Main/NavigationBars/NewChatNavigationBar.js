@@ -5,20 +5,17 @@ export default class NewChatNavigationBar extends NavigationBar {
   render() {
     return (
       <NavigationBar
-        customNext={this._renderNext()}
+        customPrev={this._renderPrev()}
         hidePrev={true}
         title="New Message"
         {...this.props} />
     );
   }
 
-  _renderNext() {
+  _renderPrev() {
     return (
       <NavigationBar.Button
-        noIcon={true}
-        position="right">
-        Cancel
-      </NavigationBar.Button>
+        icon={require('../../../assets/images/navbar-close-icon.png')} />
     );
   }
 }
