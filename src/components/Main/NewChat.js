@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, StyleSheet, ListView, View, Image } from 'react-native';
 import { colors } from '../../styles';
-import { Dot, ListItem, TextInput } from '../../elements';
+import { Dot, ListItem, AutocompleteTextInput } from '../../elements';
 import NavigationBar from './NavigationBars/NewChatNavigationBar';
 
 export default class NewChat extends Component {
@@ -12,33 +12,55 @@ export default class NewChat extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          autoCapitalize="words"
-          autoCorrect={false}
-          clearButtonMode="while-editing"
-          label="Team"
-          placeholder="Team Name" />
-        <TextInput
-          autoCapitalize="words"
-          autoCorrect={false}
-          clearButtonMode="while-editing"
-          label="Person"
-          placeholder="Name or Email" />
-        <TextInput
-          autoCapitalize="words"
-          autoCorrect={false}
-          clearButtonMode="while-editing"
-          label="Property"
-          placeholder="Optional" />
-        <ListView
-          automaticallyAdjustContentInsets={false}
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow.bind(this)}
-          style={styles.list}
-          />
+        <AutocompleteTextInput
+          dataProvider={this._dataProvider}
+          label="Team" />
+        <AutocompleteTextInput
+          dataProvider={this._dataProvider}
+          label="Team" />
       </View>
     );
   }
+
+  _dataProvider(textValue) {
+    const data = textValue.split('');
+    return Promise.resolve(data.map(v => ({
+      accessoryType: 'pin',
+      title: v,
+      subtitle: 'studiopd@me.com and a really long subtitle',
+    })));
+  }
+
+  // render() {
+  //   return (
+  //     <View style={styles.container}>
+  //       <TextInput
+  //         autoCapitalize="words"
+  //         autoCorrect={false}
+  //         clearButtonMode="while-editing"
+  //         label="Team"
+  //         placeholder="Team Name" />
+  //       <TextInput
+  //         autoCapitalize="words"
+  //         autoCorrect={false}
+  //         clearButtonMode="while-editing"
+  //         label="Person"
+  //         placeholder="Name or Email" />
+  //       <TextInput
+  //         autoCapitalize="words"
+  //         autoCorrect={false}
+  //         clearButtonMode="while-editing"
+  //         label="Property"
+  //         placeholder="Optional" />
+  //       <ListView
+  //         automaticallyAdjustContentInsets={false}
+  //         dataSource={this.state.dataSource}
+  //         renderRow={this._renderRow.bind(this)}
+  //         style={styles.list}
+  //         />
+  //     </View>
+  //   );
+  // }
 
   state = {
     dataSource: this._setupDataSource(),
@@ -69,28 +91,28 @@ export default class NewChat extends Component {
     return dataSource;
   }
 
-  _renderRow(rowData) {
-    const icon = <Image source={require('../../assets/images/icon-person-mini.png')} />;
-    const iconColor = colors.get('blue');
-    const leftAccessory = <Dot color={iconColor} diameter={21}>{icon}</Dot>;
+  // _renderRow(rowData) {
+  //   const icon = <Image source={require('../../assets/images/icon-person-mini.png')} />;
+  //   const iconColor = colors.get('blue');
+  //   const leftAccessory = <Dot color={iconColor} diameter={21}>{icon}</Dot>;
 
-    return (
-      <ListItem
-        leftAccessory={leftAccessory}
-        onPress={() => this._handlePress(rowData)}
-        style={styles.listItem}>
-        <View style={styles.listItemBody}>
-          <ListItem.Title style={styles.title}>
-            {rowData.street}
-          </ListItem.Title>
+  //   return (
+  //     <ListItem
+  //       leftAccessory={leftAccessory}
+  //       onPress={() => this._handlePress(rowData)}
+  //       style={styles.listItem}>
+  //       <View style={styles.listItemBody}>
+  //         <ListItem.Title style={styles.title}>
+  //           {rowData.street}
+  //         </ListItem.Title>
 
-          <ListItem.Subtitle style={styles.subtitle}>
-            {rowData.city}, {rowData.state}, {rowData.zipCode}
-          </ListItem.Subtitle>
-        </View>
-      </ListItem>
-    );
-  }
+  //         <ListItem.Subtitle style={styles.subtitle}>
+  //           {rowData.city}, {rowData.state}, {rowData.zipCode}
+  //         </ListItem.Subtitle>
+  //       </View>
+  //     </ListItem>
+  //   );
+  // }
 
   _handlePress() {
     const { navigator } = this.props;

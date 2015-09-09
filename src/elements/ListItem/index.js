@@ -9,7 +9,7 @@ export default class ListItem extends Component {
     leftAccessory: PropTypes.node,
     rightAccessory: PropTypes.oneOf(['disclosure']),
     children: PropTypes.node,
-    onPress: PropTypes.func,
+    onPress: PropTypes.func.isRequired,
     style: PropTypes.object,
   }
 
