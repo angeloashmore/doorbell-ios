@@ -1,6 +1,7 @@
-import React, { Component, PropTypes, StyleSheet, ListView, View, Image } from 'react-native';
+import React, { Component, PropTypes, StyleSheet, Animated, View } from 'react-native';
+import KeyboardEvents, { Emitter as KeyboardEventEmitter } from 'react-native-keyboardevents';
 import { colors } from '../../styles';
-import { Dot, ListItem, AutocompleteTextInput } from '../../elements';
+import { AutocompleteTextInput } from '../../elements';
 import NavigationBar from './NavigationBars/NewChatNavigationBar';
 
 export default class NewChat extends Component {
@@ -9,17 +10,47 @@ export default class NewChat extends Component {
     route: PropTypes.object.isRequired,
   }
 
+  componentDidMount() {
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
+  }
+
+  componentWillUnmount() {
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this._updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this._resetKeyboardSpace.bind(this));
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.inputs}>
+          <AutocompleteTextInput
+            dataProvider={this._dataProvider}
+            label="Team"
+            ref="teamInput"/>
+          <AutocompleteTextInput
+            dataProvider={this._dataProvider}
+            label="Person" />
+          <AutocompleteTextInput
+            dataProvider={this._dataProvider}
+            label="Property" />
+        </View>
+
         <AutocompleteTextInput
           dataProvider={this._dataProvider}
-          label="Team" />
-        <AutocompleteTextInput
-          dataProvider={this._dataProvider}
-          label="Team" />
+          label="Property" />
+
+        <Animated.View
+          style={[
+            styles.keyboardSpace,
+            { height: this.state.keyboardSpace },
+          ]} />
       </View>
     );
+  }
+
+  state = {
+    keyboardSpace: new Animated.Value(0),
   }
 
   _dataProvider(textValue) {
@@ -31,92 +62,24 @@ export default class NewChat extends Component {
     })));
   }
 
-  // render() {
-  //   return (
-  //     <View style={styles.container}>
-  //       <TextInput
-  //         autoCapitalize="words"
-  //         autoCorrect={false}
-  //         clearButtonMode="while-editing"
-  //         label="Team"
-  //         placeholder="Team Name" />
-  //       <TextInput
-  //         autoCapitalize="words"
-  //         autoCorrect={false}
-  //         clearButtonMode="while-editing"
-  //         label="Person"
-  //         placeholder="Name or Email" />
-  //       <TextInput
-  //         autoCapitalize="words"
-  //         autoCorrect={false}
-  //         clearButtonMode="while-editing"
-  //         label="Property"
-  //         placeholder="Optional" />
-  //       <ListView
-  //         automaticallyAdjustContentInsets={false}
-  //         dataSource={this.state.dataSource}
-  //         renderRow={this._renderRow.bind(this)}
-  //         style={styles.list}
-  //         />
-  //     </View>
-  //   );
-  // }
-
-  state = {
-    dataSource: this._setupDataSource(),
+  _updateKeyboardSpace(frames) {
+    Animated.timing(
+      this.state.keyboardSpace,
+      {
+        duration: 100,
+        toValue: frames.end.height,
+      },
+    ).start();
   }
 
-  _setupDataSource() {
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
-
-    dataSource = dataSource.cloneWithRows([
+  _resetKeyboardSpace() {
+    Animated.timing(
+      this.state.keyboardSpace,
       {
-        street: '3439 Ala Hapuu St.',
-        city: 'Honolulu',
-        state: 'HI',
-        country: 'United States',
-        zipCode: '96818',
+        duration: 100,
+        toValue: 0,
       },
-      {
-        street: '3439 Ala Hapuu Ave.',
-        city: 'Honolulu',
-        state: 'HI',
-        country: 'United States',
-        zipCode: '96818',
-      },
-    ]);
-
-    return dataSource;
-  }
-
-  // _renderRow(rowData) {
-  //   const icon = <Image source={require('../../assets/images/icon-person-mini.png')} />;
-  //   const iconColor = colors.get('blue');
-  //   const leftAccessory = <Dot color={iconColor} diameter={21}>{icon}</Dot>;
-
-  //   return (
-  //     <ListItem
-  //       leftAccessory={leftAccessory}
-  //       onPress={() => this._handlePress(rowData)}
-  //       style={styles.listItem}>
-  //       <View style={styles.listItemBody}>
-  //         <ListItem.Title style={styles.title}>
-  //           {rowData.street}
-  //         </ListItem.Title>
-
-  //         <ListItem.Subtitle style={styles.subtitle}>
-  //           {rowData.city}, {rowData.state}, {rowData.zipCode}
-  //         </ListItem.Subtitle>
-  //       </View>
-  //     </ListItem>
-  //   );
-  // }
-
-  _handlePress() {
-    const { navigator } = this.props;
-    navigator.pop();
+    ).start();
   }
 
   static NavigationBar = NavigationBar;
@@ -127,22 +90,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  list: {
-    backgroundColor: colors.get('transparent'),
+  inputs: {
     flex: 1,
   },
 
-  listItemBody: {
-    flexDirection: 'row',
-  },
-
-  title: {
-    alignSelf: 'flex-start',
-    marginRight: 8,
-    letterSpacing: 0,
-  },
-
-  subtitle: {
-    alignSelf: 'flex-start',
+  keyboardSpace: {
+    backgroundColor: colors.get('white'),
   },
 });

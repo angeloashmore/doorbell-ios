@@ -18,7 +18,6 @@ export default class AutocompleteTextInputData extends Component {
           subtitle={data.subtitle} />
 
         <TouchableOpacity
-          activeOpacity={0.3}
           onPress={this.props.onClear}
           style={styles.clear}>
           <Image source={require('../../assets/images/clear.png')} />
