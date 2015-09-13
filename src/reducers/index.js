@@ -1,5 +1,5 @@
-import * as auth from './auth';
-import * as teams from './teams';
+import auth from './auth';
+import teams from './teams';
 
 export {
   auth,

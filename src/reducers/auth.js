@@ -1,6 +1,8 @@
-import Immutable from 'immutable';
+import { createReducer } from 'redux-immutablejs';
+import { Map } from 'immutable';
+import { actionTypes } from '../constants';
 
-const initialState = {
+const initialState = new Map({
   signingIn: false,
   signInError: null,
   signingOut: false,
@@ -8,61 +10,57 @@ const initialState = {
   changePasswordError: null,
   changePasswordSuccess: false,
   jwt: null,
-};
+});
 
-export const CONSTRUCT = () => Immutable.fromJS(initialState);
+export default createReducer(initialState, {
+  [actionTypes.SIGNING_IN] (state, action) {
+    return initialState.set('signingIn', true);
+  },
 
-export const SIGNING_IN = (domain, action) => {
-  return CONSTRUCT()
-    .set('signingIn', true);
-};
+  [actionTypes.SIGN_IN_ERROR] (state, action) {
+    const error = new Map({
+      type: action.data.error.error,
+      message: action.data.error.error_description,
+    });
 
-export const SIGN_IN_ERROR = (domain, action) => {
-  const error = {
-    type: action.data.error.error,
-    message: action.data.error.error_description,
-  };
+    return initialState.set('signInError', error);
+  },
 
-  return CONSTRUCT()
-    .set('signInError', Immutable.fromJS(error));
-};
+  [actionTypes.SIGNED_IN] (state, action) {
+    return initialState.set('jwt', action.data.jwt);
+  },
 
-export const SIGNED_IN = (domain, action) => {
-  return CONSTRUCT()
-    .set('jwt', action.data.jwt);
-};
+  [actionTypes.SIGNING_OUT] (state, action) {
+    return state.set('signingOut', true);
+  },
 
-export const SIGNING_OUT = (domain, action) => {
-  return domain
-    .set('signingOut', true);
-};
+  [actionTypes.SIGNED_OUT] (state, action) {
+    return initialState;
+  },
 
-export const SIGNED_OUT = (domain, action) => {
-  return CONSTRUCT();
-};
+  [actionTypes.CHANGING_PASSWORD] (state, action) {
+    return state
+      .set('changingPassword', true)
+      .set('changePasswordError', null)
+      .set('changePasswordSuccess', false);
+  },
 
-export const CHANGING_PASSWORD = (domain, action) => {
-  return domain
-    .set('changingPassword', true)
-    .set('changePasswordError', null)
-    .set('changePasswordSuccess', false);
-};
+  [actionTypes.CHANGE_PASSWORD_ERROR] (state, action) {
+    const error = new Map({
+      type: action.data.error.code,
+      message: action.data.error.error || action.data.error.description,
+    });
 
-export const CHANGE_PASSWORD_ERROR = (domain, action) => {
-  const error = {
-    type: action.data.error.code,
-    message: action.data.error.error || action.data.error.description,
-  };
+    return state
+      .set('changingPassword', false)
+      .set('changePasswordError', error)
+      .set('changePasswordSuccess', false);
+  },
 
-  return domain
-    .set('changingPassword', false)
-    .set('changePasswordError', Immutable.fromJS(error))
-    .set('changePasswordSuccess', false);
-};
-
-export const CHANGED_PASSWORD = (domain, action) => {
-  return domain
-    .set('changingPassword', false)
-    .set('changePasswordError', null)
-    .set('changePasswordSuccess', true);
-};
+  [actionTypes.CHANGED_PASSWORD] (state, action) {
+    return state
+      .set('changingPassword', false)
+      .set('changePasswordError', null)
+      .set('changePasswordSuccess', true);
+  }
+});
