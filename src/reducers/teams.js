@@ -1,28 +1,28 @@
+import { createReducer } from 'redux-immutablejs';
 import Immutable, { List } from 'immutable';
+import { actionTypes } from '../constants';
 
-const initialState = {
+const initialState = Immutable.fromJS({
   fetchingTeams: false,
   fetchTeamsError: null,
   teams: [],
-};
+});
 
-export const CONSTRUCT = () => Immutable.fromJS(initialState);
+export default createReducer(initialState, {
+  [actionTypes.FETCHING_TEAMS] (state, action) {
+    return initialState.set('fetchingTeams', true);
+  },
 
-export const FETCHING_TEAMS = (domain, action) => {
-  return CONSTRUCT()
-    .set('fetchingTeams', true);
-};
+  [actionTypes.FETCH_TEAMS_ERROR] (state, action) {
+    const error = new Map({
+      message: action.error.error,
+    });
 
-export const FETCH_TEAMS_ERROR = (domain, action) => {
-  const error = {
-    message: action.data.error.error,
-  };
+    return initialState.set('fetchTeamsError', error);
+  },
 
-  return CONSTRUCT()
-    .set('fetchTeamsError', Immutable.fromJS(error));
-};
-
-export const FETCHED_TEAMS = (domain, action) => {
-  return CONSTRUCT()
-    .set('teams', new List(action.data.teams));
-};
+  [actionTypes.FETCHED_TEAMS] (state, action) {
+    const teams = new List(action.data.teams);
+    return initialState.set('teams', teams);
+  },
+});

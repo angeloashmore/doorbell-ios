@@ -1,94 +1,121 @@
 import config from '../config';
+import { actionTypes } from '../constants';
 
-const signingIn = () => ({
-  name: 'SIGNING_IN',
-});
-
-const signInError = error => ({
-  name: 'SIGN_IN_ERROR',
-  data: { error },
-});
-
-const signedIn = jwt => ({
-  name: 'SIGNED_IN',
-  data: { jwt },
-});
-
-export const signIn = (username, password) => (dispatch => {
-  dispatch(signingIn());
-
-  const body = {
-    connection: 'Username-Password-Authentication',
-    client_id: config.Auth0.CLIENT_ID,
-    grant_type: 'password',
-    scope: 'openid',
-    username,
-    password,
+function signingIn() {
+  return {
+    type: actionTypes.SIGNING_IN,
   };
+}
 
-  const options = {
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+function signInError(error) {
+  return {
+    type: actionTypes.SIGN_IN_ERROR,
+    data: { error },
   };
+}
 
-  fetch(`https://${config.Auth0.DOMAIN}/oauth/ro`, options)
-    .then(res => res.json())
-    .then(json => {
-      if (!!json.error) {
-        dispatch(signInError(json));
-      } else {
-        dispatch(signedIn(json.id_token));
-      }
-    });
-});
-
-const signingOut = () => ({
-  name: 'SIGNING_OUT',
-});
-
-const signedOut = () => ({
-  name: 'SIGNED_OUT',
-});
-
-export const signOut = () => (dispatch => {
-  dispatch(signingOut());
-  fetch(`https://${config.Auth0.DOMAIN}/logout`)
-    .then(dispatch(signedOut()));
-});
-
-const changingPassword = () => ({
-  name: 'CHANGING_PASSWORD',
-});
-
-const changePasswordError = error => ({
-  name: 'CHANGE_PASSWORD_ERROR',
-  data: { error },
-});
-
-export const changePassword = (email, password) => (dispatch => {
-  dispatch(changingPassword());
-
-  const body = {
-    connection: 'Username-Password-Authentication',
-    client_id: config.Auth0.CLIENT_ID,
-    email,
-    password,
+function signedIn(jwt) {
+  return {
+    type: actionTypes.SIGNED_IN,
+    data: { jwt },
   };
+}
 
-  const options = {
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+export function signIn(username, password) {
+  return dispatch => {
+    dispatch(signingIn());
+
+    const body = {
+      connection: 'Username-Password-Authentication',
+      client_id: config.Auth0.CLIENT_ID,
+      grant_type: 'password',
+      scope: 'openid',
+      username,
+      password,
+    };
+
+    const options = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    };
+
+    fetch(`https://${config.Auth0.DOMAIN}/oauth/ro`, options)
+      .then(res => res.json())
+      .then(json => {
+        if (!!json.error) {
+          dispatch(signInError(json));
+        } else {
+          dispatch(signedIn(json.id_token));
+        }
+      });
   };
+}
 
-  fetch(`https://${config.Auth0.DOMAIN}/dbconnections/change_password`, options)
-    .then(res => res.json())
-    .then(json => {
-      if (!!json.error || !!json.code) {
-        dispatch(changePasswordError(json));
-      } else {
-        dispatch(changedPassword());
-      }
-    });
-});
+function signingOut() {
+  return {
+    type: actionTypes.SIGNING_OUT,
+  };
+}
+
+function signedOut() {
+  return {
+    type: actionTypes.SIGNED_OUT,
+  };
+}
+
+export function signOut() {
+  return dispatch => {
+    dispatch(signingOut());
+    fetch(`https://${config.Auth0.DOMAIN}/logout`)
+      .then(dispatch(signedOut()));
+  };
+}
+
+function changingPassword() {
+  return {
+    type: actionTypes.CHANGING_PASSWORD,
+  };
+}
+
+function changePasswordError() {
+  return {
+    type: actionTypes.CHANGE_PASSWORD_ERROR,
+    data: { error },
+  };
+}
+
+function changedPassword() {
+  return {
+    type: actionTypes.CHANGED_PASSWORD,
+  };
+}
+
+export function changePassword(email, password) {
+  return dispatch => {
+    dispatch(changingPassword());
+
+    const body = {
+      connection: 'Username-Password-Authentication',
+      client_id: config.Auth0.CLIENT_ID,
+      email,
+      password,
+    };
+
+    const options = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    };
+
+    fetch(`https://${config.Auth0.DOMAIN}/dbconnections/change_password`, options)
+      .then(res => res.json())
+      .then(json => {
+        if (!!json.error || !!json.code) {
+          dispatch(changePasswordError(json));
+        } else {
+          dispatch(changedPassword());
+        }
+      });
+  }
+}
