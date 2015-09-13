@@ -1,6 +1,7 @@
 import React, { PropTypes, ActionSheetIOS } from 'react-native';
 import customSceneConfigs from '../../../lib/customSceneConfigs';
 import { NavigationBar } from '../../../elements';
+import { NewChatContainer } from '../../../containers/Main';
 import NewChat from '../NewChat';
 
 export default class PropertiesNavigationBar extends NavigationBar {
@@ -39,7 +40,7 @@ export default class PropertiesNavigationBar extends NavigationBar {
     const { navigator } = this.props;
 
     navigator.push({
-      component: NewChat,
+      component: NewChatContainer,
       navigationBar: <NewChat.NavigationBar subtitle="Test" />,
       sceneConfig: customSceneConfigs.FlatFloatFromBottom,
     });

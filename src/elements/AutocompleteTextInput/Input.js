@@ -4,14 +4,16 @@ import { colors, fonts } from '../../styles';
 export default class AutocompleteTextInputInput extends Component {
   static propTypes = {
     onChangeText: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
   }
 
   render() {
-    const { onChangeText } = this.props;
+    const { onChangeText, placeholder } = this.props;
 
     return (
       <TextInput
         clearButtonMode="while-editing"
+        placeholder={placeholder}
         placeholderTextColor={colors.get('textSuperUnpronounced')}
         onChangeText={onChangeText}
         style={styles.input} />

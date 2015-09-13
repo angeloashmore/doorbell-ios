@@ -9,6 +9,7 @@ export default class AutocompleteTextInput extends Component {
     dataProvider: PropTypes.func.isRequired,
     label: PropTypes.string,
     maxNumberOfRows: PropTypes.number.isRequired,
+    placeholder: PropTypes.string,
     style: PropTypes.number,
   }
 
@@ -49,7 +50,8 @@ export default class AutocompleteTextInput extends Component {
   _renderInput() {
     return (
       <AutocompleteTextInputInput
-        onChangeText={this._onChangeText.bind(this)} />
+        onChangeText={this._onChangeText.bind(this)}
+        placeholder={this.props.placeholder} />
     );
   }
 
