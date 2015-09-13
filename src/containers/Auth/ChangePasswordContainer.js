@@ -4,17 +4,15 @@ import { bindActionCreators } from 'redux';
 import { changePassword } from '../../actions/AuthActions';
 import { ChangePassword } from '../../components/Auth';
 
-function mapStateToProps(state) {
-  return {
-    error: state.auth.changePasswordError,
-    loading: state.auth.changingPassword,
-    success: state.auth.changePasswordSuccess,
-  };
-}
+const mapStateToProps = state => ({
+  error: state.getIn(['auth', 'changePasswordError']),
+  loading: state.getIn(['auth', 'changingPassword']),
+  success: state.getIn(['auth', 'changePasswordSuccess']),
+});
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ changePassword }, dispatch);
-}
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({ changePassword }, dispatch)
+);
 
 export default connect(
   mapStateToProps,

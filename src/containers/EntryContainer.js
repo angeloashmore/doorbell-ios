@@ -2,11 +2,9 @@ import { connect } from 'react-redux/native';
 
 import { Entry } from '../components';
 
-function mapStateToProps(state) {
-  return {
-    isSignedIn: !!state.auth.jwt,
-  };
-}
+const mapStateToProps = state => ({
+  isSignedIn: !!state.getIn(['auth', 'jwt']),
+});
 
 export default connect(
   mapStateToProps,

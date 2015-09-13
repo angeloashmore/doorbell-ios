@@ -1,4 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
+import Immutable, { List } from 'immutable';
 
 const initialState = {
   fetchingTeams: false,
@@ -6,26 +6,23 @@ const initialState = {
   teams: [],
 };
 
-export default function teams(state = initialState, action = {}) {
-  switch (action.type) {
-  case actionTypes.FETCHING_TEAMS:
-    return Object.assign({}, initialState, {
-      fetchingTeams: true,
-    });
+export const CONSTRUCT = () => Immutable.fromJS(initialState);
 
-  case actionTypes.FETCH_TEAMS_ERROR:
-    return Object.assign({}, initialState, {
-      fetchTeamsError: {
-        message: action.error.error,
-      },
-    });
+export const FETCHING_TEAMS = (domain, action) => {
+  return CONSTRUCT()
+    .set('fetchingTeams', true);
+};
 
-  case actionTypes.FETCHED_TEAMS:
-    return Object.assign({}, initialState, {
-      teams: action.teams,
-    });
+export const FETCH_TEAMS_ERROR = (domain, action) => {
+  const error = {
+    message: action.data.error.error,
+  };
 
-  default:
-    return state;
-  }
-}
+  return CONSTRUCT()
+    .set('fetchTeamsError', Immutable.fromJS(error));
+};
+
+export const FETCHED_TEAMS = (domain, action) => {
+  return CONSTRUCT()
+    .set('teams', new List(action.data.teams));
+};

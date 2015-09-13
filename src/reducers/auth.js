@@ -1,4 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
+import Immutable from 'immutable';
 
 const initialState = {
   signingIn: false,
@@ -10,59 +10,59 @@ const initialState = {
   jwt: null,
 };
 
-export default function auth(state = initialState, action = {}) {
-  switch (action.type) {
-  case actionTypes.SIGNING_IN:
-    return Object.assign({}, initialState, {
-      signingIn: true,
-    });
+export const CONSTRUCT = () => Immutable.fromJS(initialState);
 
-  case actionTypes.SIGN_IN_ERROR:
-    return Object.assign({}, initialState, {
-      signInError: {
-        type: action.error.error,
-        message: action.error.error_description,
-      },
-    });
+export const SIGNING_IN = (domain, action) => {
+  return CONSTRUCT()
+    .set('signingIn', true);
+};
 
-  case actionTypes.SIGNED_IN:
-    return Object.assign({}, initialState, {
-      jwt: action.jwt,
-    });
+export const SIGN_IN_ERROR = (domain, action) => {
+  const error = {
+    type: action.data.error.error,
+    message: action.data.error.error_description,
+  };
 
-  case actionTypes.SIGNING_OUT:
-    return Object.assign({}, state, {
-      signingOut: true,
-    });
+  return CONSTRUCT()
+    .set('signInError', Immutable.fromJS(error));
+};
 
-  case actionTypes.SIGNED_OUT:
-    return initialState;
+export const SIGNED_IN = (domain, action) => {
+  return CONSTRUCT()
+    .set('jwt', action.data.jwt);
+};
 
-  case actionTypes.CHANGING_PASSWORD:
-    return Object.assign({}, state, {
-      changingPassword: true,
-      changePasswordError: null,
-      changePasswordSuccess: false,
-    });
+export const SIGNING_OUT = (domain, action) => {
+  return domain
+    .set('signingOut', true);
+};
 
-  case actionTypes.CHANGE_PASSWORD_ERROR:
-    return Object.assign({}, state, {
-      changingPassword: false,
-      changePasswordError: {
-        type: action.error.code,
-        message: action.error.error || action.error.description,
-      },
-      changePasswordSuccess: false,
-    });
+export const SIGNED_OUT = (domain, action) => {
+  return CONSTRUCT();
+};
 
-  case actionTypes.CHANGED_PASSWORD:
-    return Object.assign({}, state, {
-      changingPassword: false,
-      changePasswordError: null,
-      changePasswordSuccess: true,
-    });
+export const CHANGING_PASSWORD = (domain, action) => {
+  return domain
+    .set('changingPassword', true)
+    .set('changePasswordError', null)
+    .set('changePasswordSuccess', false);
+};
 
-  default:
-    return state;
-  }
-}
+export const CHANGE_PASSWORD_ERROR = (domain, action) => {
+  const error = {
+    type: action.data.error.code,
+    message: action.data.error.error || action.data.error.description,
+  };
+
+  return domain
+    .set('changingPassword', false)
+    .set('changePasswordError', Immutable.fromJS(error))
+    .set('changePasswordSuccess', false);
+};
+
+export const CHANGED_PASSWORD = (domain, action) => {
+  return domain
+    .set('changingPassword', false)
+    .set('changePasswordError', null)
+    .set('changePasswordSuccess', true);
+};

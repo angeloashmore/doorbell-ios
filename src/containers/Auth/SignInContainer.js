@@ -4,16 +4,14 @@ import { bindActionCreators } from 'redux';
 import { signIn } from '../../actions/AuthActions';
 import { SignIn } from '../../components/Auth';
 
-function mapStateToProps(state) {
-  return {
-    error: state.auth.signInError,
-    loading: state.auth.signingIn,
-  };
-}
+const mapStateToProps = state => ({
+  error: state.getIn(['auth', 'signInError']),
+  loading: state.getIn(['auth', 'signingIn']),
+});
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ signIn }, dispatch);
-}
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({ signIn }, dispatch)
+);
 
 export default connect(
   mapStateToProps,

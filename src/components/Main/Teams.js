@@ -1,4 +1,5 @@
 import React, { Component, PropTypes, StyleSheet, View, ListView, Image, Text, ActivityIndicatorIOS } from 'react-native';
+import { List } from 'immutable';
 import { colors, fonts } from '../../styles';
 import { TeamsNavigationBar as NavigationBar } from './NavigationBars';
 import { AlertIndicator, ListItem, NoObjects, Tag } from '../../elements';

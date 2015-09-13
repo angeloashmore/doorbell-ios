@@ -1,11 +1,7 @@
 import React, { AppRegistry, Component, StatusBarIOS } from 'react-native';
 import { Provider } from 'react-redux/native';
-
-import configureStore from './store/configureStore';
-
+import store from './store';
 import { EntryContainer } from './containers';
-
-const store = configureStore();
 
 class DoorbellIOS extends Component {
   componentDidMount() {
